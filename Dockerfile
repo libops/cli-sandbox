@@ -31,10 +31,10 @@ ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
   AGGREGATE_VERSION=1.6-8 \
-  # renovate: datasource=repology depName=debian_13/bind9
+  # renovate: datasource=repology depName=debian_13/bind9-dnsutils
   BIND9_VERSION=1:9.20.15-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
-  FZF_VERSION=0.60.3-1 \
+  FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
   GH_VERSION=2.46.0-3 \
   # renovate: datasource=repology depName=debian_13/git
@@ -44,13 +44,13 @@ ARG \
   # renovate: datasource=repology depName=debian_13/iproute2
   IPROUTE2_VERSION=6.15.0-1 \
   # renovate: datasource=repology depName=debian_13/ipset
-  IPSET_VERSION=7.22-1 \
+  IPSET_VERSION=7.22-1+b1 \
   # renovate: datasource=repology depName=debian_13/iptables
   IPTABLES_VERSION=1.8.11-2 \
   # renovate: datasource=repology depName=debian_13/jq
   JQ_VERSION=1.7.1-6+deb13u1 \
   # renovate: datasource=repology depName=debian_13/less
-  LESS_VERSION=590-2.1~deb12u2 \
+  LESS_VERSION=668-1 \
   # renovate: datasource=repology depName=debian_13/make-dfsg
   MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
@@ -73,7 +73,7 @@ ARG \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
-  bind9="${BIND9_VERSION}" \
+  bind9-dnsutils="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
   git="${GIT_VERSION}" \
@@ -111,7 +111,7 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
-USER node
+# USER node
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
