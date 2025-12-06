@@ -6,13 +6,15 @@ Run `gemini` and `claude` in a docker container
 
 ```
 cd /path/to/codebase
+CODE_CLI=claude # or gemini
 docker run \
   -v $HOME/.gemini:/home/node/.gemini \
   -v $HOME/.claude:/home/node/.claude \
   --cap-add=NET_ADMIN --cap-add=NET_RAW \
   -v ./:/workspace \
   -w /workspace \
-  --rm -it ghcr.io/joecorall/cli-sandbox:main
+  --rm -it ghcr.io/joecorall/cli-sandbox:main \
+  "$CODE_CLI"
 # chit chat
 ```
 
