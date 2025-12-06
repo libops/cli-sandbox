@@ -30,39 +30,39 @@ USER root
 ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
-  AGGREGATE_VERSION=1.6-7+b1 \
+  AGGREGATE_VERSION=1.6-8 \
   # renovate: datasource=repology depName=debian_13/dnsutils
   DNSUTILS_VERSION=1:9.18.41-1~deb12u1 \
   # renovate: datasource=repology depName=debian_13/fzf
-  FZF_VERSION=0.38.0-1+b1 \
+  FZF_VERSION=0.60.3-1 \
   # renovate: datasource=repology depName=debian_13/gh
-  GH_VERSION=2.23.0+dfsg1-1 \
+  GH_VERSION=2.46.0-3 \
   # renovate: datasource=repology depName=debian_13/git
-  GIT_VERSION=1:2.39.5-0+deb12u2 \
+  GIT_VERSION=1:2.47.3-0+deb13u1 \
   # renovate: datasource=repology depName=debian_13/gnupg2
-  GNUPG2_VERSION=2.2.40-1.1+deb12u1 \
+  GNUPG2_VERSION=2.4.7-21 \
   # renovate: datasource=repology depName=debian_13/iproute2
-  IPROUTE2_VERSION=6.1.0-3 \
+  IPROUTE2_VERSION=6.15.0-1 \
   # renovate: datasource=repology depName=debian_13/ipset
-  IPSET_VERSION=7.17-1 \
+  IPSET_VERSION=7.22-1 \
   # renovate: datasource=repology depName=debian_13/iptables
-  IPTABLES_VERSION=1.8.9-2 \
+  IPTABLES_VERSION=1.8.11-2 \
   # renovate: datasource=repology depName=debian_13/jq
-  JQ_VERSION=1.6-2.1+deb12u1 \
+  JQ_VERSION=1.7.1-6+deb13u1 \
   # renovate: datasource=repology depName=debian_13/less
   LESS_VERSION=590-2.1~deb12u2 \
   # renovate: datasource=repology depName=debian_13/make
   MAKE_VERSION=4.3-4.1 \
   # renovate: datasource=repology depName=debian_13/man-db
-  MAN_DB_VERSION=2.11.2-2 \
+  MAN_DB_VERSION=2.13.1-1 \
   # renovate: datasource=repology depName=debian_13/procps
-  PROCPS_VERSION=2:4.0.2-3 \
+  PROCPS_VERSION=2:4.0.4-9 \
   # renovate: datasource=repology depName=debian_13/sudo
-  SUDO_VERSION=1.9.13p3-1+deb12u2 \
+  SUDO_VERSION=1.9.16p2-3 \
   # renovate: datasource=repology depName=debian_13/unzip
-  UNZIP_VERSION=6.0-28 \
+  UNZIP_VERSION=6.0-29 \
   # renovate: datasource=repology depName=debian_13/vim
-  VIM_VERSION=2:9.0.1378-2+deb12u2 \
+  VIM_VERSION=2:9.1.1230-2 \
   # renovate: datasource=github-tags depName=golang packageName=golang/go versioning=go-mod-directive
   GO_VERSION=go1.25.3 \
   GO_BASE_URL="https://go.dev/dl/${GO_VERSION}" \
