@@ -31,8 +31,8 @@ ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
   AGGREGATE_VERSION=1.6-8 \
-  # renovate: datasource=repology depName=debian_13/dnsutils
-  DNSUTILS_VERSION=1:9.18.41-1~deb12u1 \
+  # renovate: datasource=repology depName=debian_13/bind9
+  BIND9_VERSION=1:9.20.15-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -51,8 +51,8 @@ ARG \
   JQ_VERSION=1.7.1-6+deb13u1 \
   # renovate: datasource=repology depName=debian_13/less
   LESS_VERSION=590-2.1~deb12u2 \
-  # renovate: datasource=repology depName=debian_13/make
-  MAKE_VERSION=4.3-4.1 \
+  # renovate: datasource=repology depName=debian_13/make-dfsg
+  MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
   MAN_DB_VERSION=2.13.1-1 \
   # renovate: datasource=repology depName=debian_13/procps
@@ -73,7 +73,7 @@ ARG \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
-  dnsutils="${DNSUTILS_VERSION}" \
+  bind9="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
   git="${GIT_VERSION}" \
