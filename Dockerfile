@@ -92,9 +92,13 @@ RUN sh -c "$(wget --progress=dot:giga -O- https://github.com/deluan/zsh-in-docke
   -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
   -x
 
-# Install Claude and Gemini
-RUN npm install -g @anthropic-ai/claude-code@v2.0.59
-RUN npm install -g @google/gemini-cli@v0.19.4
+ARG \
+  # renovate: datasource=npm depName=@anthropic-ai/claude-code
+  CLAUDE_CLI_VERSION=v2.0.60 \
+  # renovate: datasource=npm depName=@google/gemini-cli
+  GEMINI_CLI_VERSION=v0.19.4
+RUN npm install -g @anthropic-ai/claude-code@$CLAUDE_CLI_VERSION
+RUN npm install -g @google/gemini-cli@$GEMINI_CLI_VERSION
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
