@@ -9,6 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - run: shellcheck *.sh
+      - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
+        with:
+          dockerfile: Dockerfile
+          verbose: true
   push:
     needs: [lint]
     uses: libops/.github/.github/workflows/build-push-ghcr.yaml@main
