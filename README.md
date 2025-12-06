@@ -23,7 +23,7 @@ docker run \
   -v ./:/workspace \
   -w /workspace \
   --rm -it \
-  ghcr.io/joecorall/cli-sandbox:main \
+  ghcr.io/libops/cli-sandbox:main \
   "$CODE_CLI"
 # chit chat
 ```
