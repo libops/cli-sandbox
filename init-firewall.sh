@@ -42,7 +42,6 @@ if [ -z "$gh_ranges" ]; then
     echo "ERROR: Failed to fetch GitHub IP ranges"
     exit 1
 fi
-
 if ! echo "$gh_ranges" | jq -e '.web and .api and .git' >/dev/null; then
     echo "ERROR: GitHub API response missing required fields"
     exit 1
@@ -78,9 +77,8 @@ for domain in \
     done < <(echo "$ips")
 done
 
-GOOGLE_CLOUD_CUSTOMER_IP_URL="https://www.gstatic.com/ipranges/cloud.json"
-echo "Fetching gcloud customer IPs $GOOGLE_CLOUD_CUSTOMER_IP_URL."
-cloud_ips=$(curl -s $GOOGLE_CLOUD_CUSTOMER_IP_URL)
+echo "Fetching gcloud customer IPs."
+cloud_ips=$(curl -s https://www.gstatic.com/ipranges/cloud.json)
 if [ -z "$cloud_ips" ]; then
     echo "ERROR: Failed to fetch Google Cloud Customer IPs"
     exit 1
@@ -95,10 +93,8 @@ while read -r cidr; do
     ipset add google-customer-ips "$cidr" 2>/dev/null || true
 done < <(echo "$CLOUD_NETBLOCKS")
 
-# Get all IPs in Google Cloud
-GOOGLE_ALL_IP_URL="https://www.gstatic.com/ipranges/goog.json"
-echo "Fetching gcloud full ip ranges $GOOGLE_ALL_IP_URL."
-goog_ips=$(curl -s $GOOGLE_ALL_IP_URL)
+echo "Fetching all gcloud IPs."
+goog_ips=$(curl -s https://www.gstatic.com/ipranges/goog.json)
 if [ -z "$goog_ips" ]; then
     echo "ERROR: Failed to fetch Google All IPs"
     exit 1
@@ -133,15 +129,15 @@ iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # Allow GitHub and Anthropic
 iptables -A OUTPUT -m set --match-set github-anthropic dst -j ACCEPT
-# Block all Google Cloud customer IPs
+# Block all gcloud customer IPs
 # since this rule is after github-anthropic ACCEPT it shouldn't block any IPs in both sets
 iptables -A OUTPUT -m set --match-set google-customer-ips dst -j REJECT --reject-with icmp-admin-prohibited
-# Allow complement of All Google IPs and Customer Google Cloud IPs
-# since this rule is after google-customer-ips REJECT it should allow
-# IPs used by google not assigned to customers
+# Allow complement set of all gcloud IPs and customer gcloud IPs
+# since this rule is after google-customer-ips REJECT
+# the intended effect is to only allow gcloud IPs google's internal services use
+# and not allow accessing IPs assigned to google's customers
 iptables -A OUTPUT -m set --match-set google-all-ips dst -j ACCEPT
 
-# Explicitly REJECT all other outbound traffic for immediate feedback
 iptables -A OUTPUT -j REJECT --reject-with icmp-admin-prohibited
 
 echo "Firewall configuration complete"
@@ -149,12 +145,11 @@ echo "Verifying firewall rules..."
 if curl --connect-timeout 5 https://example.com >/dev/null 2>&1; then
     echo "ERROR: Firewall verification failed - was able to reach https://example.com"
     exit 1
-else
-    echo "Firewall verification passed - unable to reach https://example.com as expected"
 fi
+echo "Firewall verification passed - unable to reach https://example.com as expected"
+
 if ! curl --connect-timeout 5 https://api.github.com/zen >/dev/null 2>&1; then
     echo "ERROR: Firewall verification failed - unable to reach https://api.github.com"
     exit 1
-else
-    echo "Firewall verification passed - able to reach https://api.github.com as expected"
 fi
+echo "Firewall verification passed - able to reach https://api.github.com as expected"
