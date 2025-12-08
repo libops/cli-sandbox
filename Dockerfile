@@ -59,6 +59,8 @@ ARG \
   PROCPS_VERSION=2:4.0.4-9 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3 \
+  # renovate: datasource=repology depName=debian_13/tree
+  TREE_VERSION=2.2.1-1 \
   # renovate: datasource=repology depName=debian_13/unzip
   UNZIP_VERSION=6.0-29 \
   # renovate: datasource=repology depName=debian_13/vim
@@ -87,6 +89,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   man-db="${MAN_DB_VERSION}" \
   procps="${PROCPS_VERSION}" \
   sudo="${SUDO_VERSION}" \
+  tree="${TREE_VERSION}" \
   unzip="${UNZIP_VERSION}" \
   vim="${VIM_VERSION}" \
   && apt-get clean && rm -rf /var/lib/apt/lists/*

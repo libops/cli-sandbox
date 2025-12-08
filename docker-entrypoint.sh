@@ -9,6 +9,9 @@ sudo /usr/local/bin/init-firewall.sh \
         && exit 1
       )
 
+# sometimes i forget where i started after all the firewall rule stdout
+tree
+
 if [ "$#" -eq 0 ]; then
   exec /bin/bash
 else
