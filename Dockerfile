@@ -115,7 +115,7 @@ USER node
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  POWERLEVEL9K_DISABLE_GITSTATUS="true"
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
