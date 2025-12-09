@@ -10,7 +10,7 @@ sudo /usr/local/bin/init-firewall.sh \
       )
 
 # sometimes i forget where i started after all the firewall rule stdout
-tree
+ls -la
 
 if [ "$#" -eq 0 ]; then
   exec /bin/bash
