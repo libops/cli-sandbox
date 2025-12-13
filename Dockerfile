@@ -79,7 +79,7 @@ ARG \
   GO_ARM64=linux-arm64.tar.gz \
   GO_ARM64_SHA256="1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
 
-# hadolint disable=DL3008
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
   bc="${BC_VERSION}" \
