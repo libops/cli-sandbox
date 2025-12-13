@@ -115,11 +115,12 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
 USER node
+COPY force-tty.js /home/node/.force-tty.js
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
-
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin \
+  NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js"
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
