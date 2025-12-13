@@ -62,7 +62,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/procps
   PROCPS_VERSION=2:4.0.4-9 \
   # renovate: datasource=repology depName=debian_13/ripgrep
-  RIPGREP_VERSION=14.1.1-1 \
+  RIPGREP_VERSION=14.1.1-1+b4 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3 \
   # renovate: datasource=repology depName=debian_13/tree
@@ -82,7 +82,7 @@ ARG \
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
-  bc="${BC_VERSION}" \
+  bc \
   bind9-dnsutils="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
