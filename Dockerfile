@@ -57,6 +57,8 @@ ARG \
   MAN_DB_VERSION=2.13.1-1 \
   # renovate: datasource=repology depName=debian_13/procps
   PROCPS_VERSION=2:4.0.4-9 \
+  # renovate: datasource=repology depName=debian_13/ripgrep
+  RIPGREP_VERSION=15.1.0-1 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3 \
   # renovate: datasource=repology depName=debian_13/tree
@@ -88,6 +90,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   make="${MAKE_VERSION}" \
   man-db="${MAN_DB_VERSION}" \
   procps="${PROCPS_VERSION}" \
+  ripgrep="${RIPGREP_VERSION}" \
   sudo="${SUDO_VERSION}" \
   tree="${TREE_VERSION}" \
   unzip="${UNZIP_VERSION}" \
