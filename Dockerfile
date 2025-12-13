@@ -31,6 +31,8 @@ ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
   AGGREGATE_VERSION=1.6-8 \
+  # renovate: datasource=repology depName=debian_13/bc
+  BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.15-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
@@ -55,9 +57,11 @@ ARG \
   MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
   MAN_DB_VERSION=2.13.1-1 \
+  # renovate: datasource=repology depName=debian_13/psmisc
+  PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
   PROCPS_VERSION=2:4.0.4-9 \
-  # renovate: datasource=repology depName=debian_13/rust-ripgrep
+  # renovate: datasource=repology depName=debian_13/ripgrep
   RIPGREP_VERSION=14.1.1-1 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3 \
@@ -77,6 +81,7 @@ ARG \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
+  bc="${BC_VERSION}"
   bind9-dnsutils="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
@@ -89,8 +94,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   less="${LESS_VERSION}" \
   make="${MAKE_VERSION}" \
   man-db="${MAN_DB_VERSION}" \
+  psmisc="${PSMISC_VERSION}" \
   procps="${PROCPS_VERSION}" \
-  rust-ripgrep="${RIPGREP_VERSION}" \
+  ripgrep="${RIPGREP_VERSION}" \
   sudo="${SUDO_VERSION}" \
   tree="${TREE_VERSION}" \
   unzip="${UNZIP_VERSION}" \
