@@ -13,7 +13,7 @@ sudo /usr/local/bin/init-firewall.sh \
 ls -la
 
 if [ "$#" -eq 0 ]; then
-  exec /bin/bash
+  exec /bin/bash -l
 else
   exec "$@"
 fi

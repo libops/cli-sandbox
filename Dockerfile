@@ -31,6 +31,8 @@ ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
   AGGREGATE_VERSION=1.6-8 \
+  # renovate: datasource=repology depName=debian_13/bc
+  BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.15-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
@@ -55,8 +57,12 @@ ARG \
   MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
   MAN_DB_VERSION=2.13.1-1 \
+  # renovate: datasource=repology depName=debian_13/psmisc
+  PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
   PROCPS_VERSION=2:4.0.4-9 \
+  # renovate: datasource=repology depName=debian_13/ripgrep
+  RIPGREP_VERSION=14.1.1-1+b4 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3 \
   # renovate: datasource=repology depName=debian_13/tree
@@ -73,8 +79,10 @@ ARG \
   GO_ARM64=linux-arm64.tar.gz \
   GO_ARM64_SHA256="1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
 
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
+  bc \
   bind9-dnsutils="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
@@ -87,7 +95,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   less="${LESS_VERSION}" \
   make="${MAKE_VERSION}" \
   man-db="${MAN_DB_VERSION}" \
+  psmisc="${PSMISC_VERSION}" \
   procps="${PROCPS_VERSION}" \
+  ripgrep \
   sudo="${SUDO_VERSION}" \
   tree="${TREE_VERSION}" \
   unzip="${UNZIP_VERSION}" \
@@ -115,12 +125,14 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
 USER node
+
 COPY force-tty.js /home/node/.force-tty.js
+
 ENV \
-  NODE_OPTIONS="--max-old-space-size=4096" \
+  NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin \
-  NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js"
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
+
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
