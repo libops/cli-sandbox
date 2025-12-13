@@ -1,4 +1,4 @@
-FROM node:24-trixie@sha256:1501d5fd51032aa10701a7dcc9e6c72ab1e611a033ffcf08b6d5882e9165f63e
+FROM node:24-trixie@sha256:9fabb41bc32c72b02fd332bb6b6a17e01117d7eaa379a497a5adf7e1651baa2b
 
 ARG TZ
 ENV TZ="$TZ"
@@ -19,9 +19,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=v2.0.60 \
+  CLAUDE_CLI_VERSION=2.0.64 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=v0.19.4
+  GEMINI_CLI_VERSION=0.20.2
 
 RUN npm install -g "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" && \
   npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION"
@@ -115,11 +115,12 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
 USER node
+COPY force-tty.js /home/node/.force-tty.js
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
-
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin \
+  NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js"
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
