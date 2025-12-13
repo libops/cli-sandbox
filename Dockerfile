@@ -19,9 +19,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=v2.0.60 \
+  CLAUDE_CLI_VERSION=2.0.64 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=v0.19.4
+  GEMINI_CLI_VERSION=0.20.2
 
 RUN npm install -g "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" && \
   npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION"
@@ -109,6 +109,13 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
   --dest /usr/local ; \
   fi
 
+ENV PATH=$PATH:/usr/local/go/bin:/usr/local/share/npm-global/bin
+
+ARG \
+  # renovate: datasource=github-releases depName=golangci-lint packageName=golangci/golangci-lint versioning=go-mod-directive
+  GOLANGCI_LINT_VERSION=v2.7.2
+RUN go install github.com/golangci/golangci-lint@${GOLANGCI_LINT_VERSION}
+
 COPY --chown=node init-firewall.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
@@ -117,8 +124,7 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
 USER node
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096" \
-  CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
+  CLAUDE_CONFIG_DIR="/home/node/.claude"
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
