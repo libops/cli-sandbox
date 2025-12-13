@@ -81,7 +81,7 @@ ARG \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
-  bc="${BC_VERSION}"
+  bc="${BC_VERSION}" \
   bind9-dnsutils="${BIND9_VERSION}" \
   fzf="${FZF_VERSION}" \
   gh="${GH_VERSION}" \
