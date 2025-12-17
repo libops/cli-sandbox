@@ -13,12 +13,11 @@ Run `gemini` and `claude` in a docker container.
 
 ## Usage
 
-```
+```bash
+CODE_CLI=claude
 cd /path/to/codebase
-CODE_CLI=claude # or gemini
 docker run \
-  -v $HOME/.gemini:/home/node/.gemini \
-  -v $HOME/.claude:/home/node/.claude \
+  -v $HOME/.$CODE_CLI:/home/node/.$CODE_CLI \
   --cap-add=NET_ADMIN --cap-add=NET_RAW \
   -v ./:/workspace \
   -w /workspace \
@@ -28,7 +27,56 @@ docker run \
 # chit chat
 ```
 
-If you pass `gemini` or `claude` as the last argument to the `docker run` command you'll get dropped into the respective CLI. If you don't pass anything, you'll be in a bash shell and can run `claude` or `gemini` and switch between the two.
+### alias
+
+With the following in your shell's dot file, you can
+
+```
+cd path/to/code
+gemini
+```
+
+And you’ll get dropped into a sandbox’d docker container with the respective CLI with firewall protection and no host filesystem access besides the claude/gemini settings dir and the codebase mounted into the container. Be sure to uninstall claude or gemini from your machine to avoid conflicts.
+
+```bash
+ccli() {
+  if [ "$#" != 1 ]; then
+    echo "Need to pass gemini or claude"
+    return
+  fi
+
+  local cli=$1
+  if [ "$cli" != "claude" ] && [ "$cli" != "gemini" ]; then
+    echo "Need to pass gemini or claude"
+    return
+  fi
+
+  if [ "$(pwd)" = "$HOME" ]; then
+    echo "You should cd into your codebase"
+    echo "Running this command here would mount your entire home directory into $cli"
+    return
+  fi
+
+  docker run \
+    -v $HOME/.$cli:/home/node/.$cli \
+    --cap-add=NET_ADMIN --cap-add=NET_RAW \
+    -e COLUMNS=$(tput cols) \
+    -e LINES=$(tput lines) \
+    -v ./:/workspace \
+    -w /workspace \
+    --rm -it \
+    ghcr.io/libops/cli-sandbox:main \
+    "$cli"
+}
+
+gemini() {
+  ccli gemini
+}
+
+claude() {
+  ccli claude
+}
+```
 
 ## Attribution
 
