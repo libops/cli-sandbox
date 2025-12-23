@@ -19,11 +19,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.0.73 \
+  CLAUDE_CLI_VERSION=2.0.76 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.21.3 \
+  GEMINI_CLI_VERSION=0.22.2 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.0.169
+  OPENCODE_AI_VERSION=1.0.193
 
 RUN npm install -g \
   "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
@@ -76,12 +76,12 @@ ARG \
   # renovate: datasource=repology depName=debian_13/vim
   VIM_VERSION=2:9.1.1230-2 \
   # renovate: datasource=github-tags depName=golang packageName=golang/go versioning=go-mod-directive
-  GO_VERSION=go1.25.3 \
+  GO_VERSION=go1.25.5 \
   GO_BASE_URL="https://go.dev/dl/${GO_VERSION}" \
   GO_AMD64=linux-amd64.tar.gz	\
-  GO_AMD64_SHA256="0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f" \
+  GO_AMD64_SHA256="9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b" \
   GO_ARM64=linux-arm64.tar.gz \
-  GO_ARM64_SHA256="1d42ebc84999b5e2069f5e31b67d6fc5d67308adad3e178d5a2ee2c9ff2001f5"
+  GO_ARM64_SHA256="b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
 
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -123,10 +123,13 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
   --dest /usr/local ; \
   fi
 
+ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
 COPY --chown=node init-firewall.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
-  chmod 0440 /etc/sudoers.d/node-firewall
+  chmod 0440 /etc/sudoers.d/node-firewall && \
+  go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.30.0 && \
+  go install github.com/bufbuild/buf/cmd/buf@v1.61.0
 
 USER node
 
