@@ -75,6 +75,8 @@ ARG \
   UNZIP_VERSION=6.0-29 \
   # renovate: datasource=repology depName=debian_13/vim
   VIM_VERSION=2:9.1.1230-2 \
+  # renovate: datasource=github-releases depName=golangci/golangci-lint
+  GOLANGCI_LINT_VERSION=v2.7.2 \
   # renovate: datasource=github-tags depName=golang packageName=golang/go versioning=go-mod-directive
   GO_VERSION=go1.25.5 \
   GO_BASE_URL="https://go.dev/dl/${GO_VERSION}" \
@@ -124,6 +126,21 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
   fi
 
 ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN --mount=type=cache,id=golangci-lint-downloads-${TARGETARCH},sharing=locked,target=/opt/downloads \
+  LINT_VER=${GOLANGCI_LINT_VERSION#v} && \
+  case "${TARGETARCH}" in \
+    "amd64") LINT_ARCH="amd64" ;; \
+    "arm64") LINT_ARCH="arm64" ;; \
+  esac && \
+  LINT_URL="https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${LINT_VER}-linux-${LINT_ARCH}.tar.gz" && \
+  curl -sSL "$LINT_URL" -o /tmp/lint.tar.gz && \
+  tar -xzf /tmp/lint.tar.gz -C /tmp && \
+  mv "/tmp/golangci-lint-${LINT_VER}-linux-${LINT_ARCH}/golangci-lint" /usr/local/bin/ && \
+  rm -rf /tmp/lint.tar.gz /tmp/golangci-lint-*
+
 COPY --chown=node init-firewall.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
