@@ -57,11 +57,18 @@ ccli() {
     return
   fi
 
+  local git_name=$(git config --global user.name)
+  local git_email=$(git config --global user.email)
+
   docker run \
     -v $HOME/.$cli:/home/node/.$cli \
     --cap-add=NET_ADMIN --cap-add=NET_RAW \
     -e COLUMNS=$(tput cols) \
     -e LINES=$(tput lines) \
+    -e GIT_AUTHOR_NAME="$git_name" \
+    -e GIT_AUTHOR_EMAIL="$git_email" \
+    -e GIT_COMMITTER_NAME="$git_name" \
+    -e GIT_COMMITTER_EMAIL="$git_email" \
     -v ./:/workspace \
     -w /workspace \
     --rm -it \
