@@ -19,11 +19,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.9 \
+  CLAUDE_CLI_VERSION=2.1.11 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.24.0 \
+  GEMINI_CLI_VERSION=0.24.3 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.1.10
+  OPENCODE_AI_VERSION=1.1.25
 
 RUN npm install -g \
   "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
@@ -83,30 +83,32 @@ ARG \
   GO_ARM64=linux-arm64.tar.gz \
   GO_ARM64_SHA256="b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
 
-# hadolint ignore=DL3008
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  aggregate="${AGGREGATE_VERSION}" \
-  bc \
-  bind9-dnsutils="${BIND9_VERSION}" \
-  fzf="${FZF_VERSION}" \
-  gh="${GH_VERSION}" \
-  git="${GIT_VERSION}" \
-  gnupg2="${GNUPG2_VERSION}" \
-  iproute2="${IPROUTE2_VERSION}" \
-  ipset="${IPSET_VERSION}" \
-  iptables="${IPTABLES_VERSION}" \
-  jq="${JQ_VERSION}" \
-  less="${LESS_VERSION}" \
-  make="${MAKE_VERSION}" \
-  man-db="${MAN_DB_VERSION}" \
-  psmisc="${PSMISC_VERSION}" \
-  procps="${PROCPS_VERSION}" \
-  ripgrep \
-  sudo="${SUDO_VERSION}" \
-  tree="${TREE_VERSION}" \
-  unzip="${UNZIP_VERSION}" \
-  vim="${VIM_VERSION}" \
-  && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends \
+    aggregate="${AGGREGATE_VERSION}" \
+    bc="${BC_VERSION_HACK}" \
+    bind9-dnsutils="${BIND9_VERSION}" \
+    fzf="${FZF_VERSION}" \
+    gh="${GH_VERSION}" \
+    git="${GIT_VERSION}" \
+    gnupg2="${GNUPG2_VERSION}" \
+    iproute2="${IPROUTE2_VERSION}" \
+    ipset="${IPSET_VERSION}" \
+    iptables="${IPTABLES_VERSION}" \
+    jq="${JQ_VERSION}" \
+    less="${LESS_VERSION}" \
+    make="${MAKE_VERSION}" \
+    man-db="${MAN_DB_VERSION}" \
+    psmisc="${PSMISC_VERSION}" \
+    procps="${PROCPS_VERSION}" \
+    ripgrep="${RIPGREP_VERSION}" \
+    sudo="${SUDO_VERSION}" \
+    tree="${TREE_VERSION}" \
+    unzip="${UNZIP_VERSION}" \
+    vim="${VIM_VERSION}" && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 COPY download.sh /usr/local/bin
 RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/opt/downloads \
