@@ -83,7 +83,6 @@ ARG \
   GO_ARM64=linux-arm64.tar.gz \
   GO_ARM64_SHA256="b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
 
-# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
   aggregate="${AGGREGATE_VERSION}" \
   bc \
@@ -101,7 +100,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   man-db="${MAN_DB_VERSION}" \
   psmisc="${PSMISC_VERSION}" \
   procps="${PROCPS_VERSION}" \
-  ripgrep \
+  ripgrep="${RIPGREP_VERSION}" \
   sudo="${SUDO_VERSION}" \
   tree="${TREE_VERSION}" \
   unzip="${UNZIP_VERSION}" \
