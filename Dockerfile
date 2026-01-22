@@ -19,9 +19,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.11 \
+  CLAUDE_CLI_VERSION=2.1.12 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.24.3 \
+  GEMINI_CLI_VERSION=0.25.0-preview.1 \
   # renovate: datasource=npm depName=opencode-ai
   OPENCODE_AI_VERSION=1.1.25
 
