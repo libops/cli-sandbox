@@ -19,11 +19,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.12 \
+  CLAUDE_CLI_VERSION=2.1.14 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.25.0-preview.1 \
+  GEMINI_CLI_VERSION=0.25.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.1.25
+  OPENCODE_AI_VERSION=1.1.28
 
 RUN npm install -g \
   "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
@@ -38,7 +38,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.15-1~deb13u1 \
+  BIND9_VERSION=1:9.20.18-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
