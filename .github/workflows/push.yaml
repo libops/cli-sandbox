@@ -15,7 +15,7 @@ jobs:
           verbose: true
   push:
     needs: [lint]
-    uses: libops/.github/.github/workflows/build-push-ghcr.yaml@main
+    uses: libops/.github/.github/workflows/build-push.yaml@main
     permissions:
       contents: read
       packages: write
