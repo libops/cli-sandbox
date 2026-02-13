@@ -1,4 +1,4 @@
-FROM node:24-trixie@sha256:bea2f8264c42f56e253295ebd89db8e7c4ff96a03339adeb4a7628bd548d9476
+FROM node:24-trixie@sha256:0c36fcf0bfd7d2c60bb4615dbac143bf9d8309c9bfb13c158095602b396a0f3a
 
 ARG TZ
 ENV TZ="$TZ"
@@ -19,11 +19,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.26 \
+  CLAUDE_CLI_VERSION=2.1.38 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.26.0 \
+  GEMINI_CLI_VERSION=0.28.0-preview.6 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.1.44
+  OPENCODE_AI_VERSION=1.1.53
 
 RUN npm install -g \
   "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
