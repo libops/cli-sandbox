@@ -15,5 +15,8 @@ ls -la
 if [ "$#" -eq 0 ]; then
   exec /bin/bash -l
 else
+  if [ "$1" = "claude" ]; then
+    claude install
+  fi
   exec "$@"
 fi
