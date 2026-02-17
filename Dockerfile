@@ -146,4 +146,6 @@ ENV \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
+RUN claude install
+
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

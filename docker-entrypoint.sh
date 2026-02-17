@@ -12,11 +12,12 @@ sudo /usr/local/bin/init-firewall.sh \
 # sometimes i forget where i started after all the firewall rule stdout
 ls -la
 
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
 if [ "$#" -eq 0 ]; then
   exec /bin/bash -l
 else
-  if [ "$1" = "claude" ]; then
-    claude install
-  fi
   exec "$@"
 fi
