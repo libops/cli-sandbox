@@ -1,6 +1,6 @@
 # cli-sandbox
 
-Run `claude`, `gemini` or `opencode` in a docker container.
+Run `claude`, `codex`, `gemini` or `opencode` in a docker container.
 
 `iptables` is used inside the container to block all outbound traffic except GitHub, Anthropic, and Google Cloud internal IPs.
 
@@ -46,8 +46,8 @@ ccli() {
   fi
 
   local cli=$1
-  if [ "$cli" ] != "opencode" ] && [ "$cli" != "claude" ] && [ "$cli" != "gemini" ]; then
-    echo "Need to pass opencode, gemini, or claude"
+  if [ "$cli" != "opencode" ] && [ "$cli" != "codex" ] && [ "$cli" != "claude" ] && [ "$cli" != "gemini" ]; then
+    echo "Need to pass opencode, codex, gemini, or claude"
     return
   fi
 
@@ -82,6 +82,10 @@ gemini() {
 
 claude() {
   ccli claude
+}
+
+codex() {
+  ccli codex
 }
 
 opencode() {

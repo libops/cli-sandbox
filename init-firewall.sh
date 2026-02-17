@@ -12,7 +12,7 @@ iptables -t nat -F
 iptables -t nat -X
 iptables -t mangle -F
 iptables -t mangle -X
-ipset destroy github-anthropic 2>/dev/null || true
+ipset destroy general 2>/dev/null || true
 ipset destroy google-all-ips 2>/dev/null || true
 ipset destroy google-customer-ips 2>/dev/null || true
 
@@ -32,7 +32,7 @@ iptables -A INPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 
-ipset create github-anthropic hash:net
+ipset create general hash:net
 ipset create google-all-ips hash:net
 ipset create google-customer-ips hash:net
 
@@ -53,11 +53,14 @@ while read -r cidr; do
         exit 1
     fi
     echo "Adding GitHub range $cidr"
-    ipset add github-anthropic "$cidr"
+    ipset add general "$cidr"
 done < <(echo "$gh_ranges" | jq -r '(.web + .api + .git)[]' | aggregate -q)
 
 for domain in \
     "api.anthropic.com" \
+    "api.openai.com" \
+    "auth.openai.com" \
+    "chatgpt.com" \
     "generativelanguage.googleapis.com" \
     "googleapis.l.google.com"; do
     echo "Resolving $domain..."
@@ -73,7 +76,7 @@ for domain in \
             exit 1
         fi
         echo "Adding $ip for $domain"
-        ipset add github-anthropic "$ip" || continue
+        ipset add general "$ip" || continue
     done < <(echo "$ips")
 done
 
@@ -127,10 +130,10 @@ iptables -P OUTPUT DROP
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-# Allow GitHub and Anthropic
-iptables -A OUTPUT -m set --match-set github-anthropic dst -j ACCEPT
+# Allow the general set of IPs
+iptables -A OUTPUT -m set --match-set general dst -j ACCEPT
 # Block all gcloud customer IPs
-# since this rule is after github-anthropic ACCEPT it shouldn't block any IPs in both sets
+# since this rule is after general ACCEPT it shouldn't block any IPs in both sets
 iptables -A OUTPUT -m set --match-set google-customer-ips dst -j REJECT --reject-with icmp-admin-prohibited
 # Allow complement set of all gcloud IPs and customer gcloud IPs
 # since this rule is after google-customer-ips REJECT
