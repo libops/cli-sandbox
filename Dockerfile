@@ -19,13 +19,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.42 \
+  CLAUDE_CLI_VERSION=2.1.45 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.101.0 \
+  CODEX_CLI_VERSION=0.104.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.28.2 \
+  GEMINI_CLI_VERSION=0.29.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.2.1
+  OPENCODE_AI_VERSION=1.2.6
 
 RUN npm install -g \
   "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
