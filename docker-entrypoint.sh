@@ -2,12 +2,14 @@
 
 set -eou pipefail
 
-sudo /usr/local/bin/init-firewall.sh \
-  || (
-        echo "Unable to set firewall" \
-        echo "Make sure you pass these flags to docker run: --cap-add=NET_ADMIN --cap-add=NET_RAW" \
-        && exit 1
-      )
+if [ "${SKIP_EGRESS_FIREWALL:-false}" != "true" ]; then
+  sudo /usr/local/bin/init-firewall.sh \
+    || (
+          echo "Unable to set firewall" \
+          echo "Make sure you pass these flags to docker run: --cap-add=NET_ADMIN --cap-add=NET_RAW" \
+          && exit 1
+        )
+fi
 
 # sometimes i forget where i started after all the firewall rule stdout
 ls -la
