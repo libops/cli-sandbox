@@ -46,6 +46,6 @@ jobs:
           build-args: CLI=${{ matrix.cli }}
           tags: ghcr.io/libops/cli-sandbox:${{ matrix.cli }}
           push: true
-          cache-from: type=registry,ref=:ghcr.io/libops/cli-sandbox:cache-${{ matrix.cli }}
-          cache-to: type=registry,ref=:ghcr.io/libops/cli-sandbox:cache-${{ matrix.cli }},mode=max
+          cache-from: type=registry,ref=ghcr.io/libops/cli-sandbox:cache-${{ matrix.cli }}
+          cache-to: type=registry,ref=ghcr.io/libops/cli-sandbox:cache-${{ matrix.cli }},mode=max
 
