@@ -1,4 +1,4 @@
-FROM node:24-trixie@sha256:0c36fcf0bfd7d2c60bb4615dbac143bf9d8309c9bfb13c158095602b396a0f3a
+FROM node:24-trixie@sha256:81649592d9833d9220423561fc517b34e932b751873274024c2a969ff4a9bfc2
 
 ARG TZ
 ENV TZ="$TZ"
@@ -19,13 +19,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.45 \
+  CLAUDE_CLI_VERSION=2.1.63 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.104.0 \
+  CODEX_CLI_VERSION=0.107.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.29.0 \
+  GEMINI_CLI_VERSION=0.32.0-preview.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.2.6 \
+  OPENCODE_AI_VERSION=1.2.15 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
