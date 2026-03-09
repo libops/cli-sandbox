@@ -21,7 +21,7 @@ ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.70 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.112.0-alpha.4-win32-x64 \
+  CODEX_CLI_VERSION=0.112.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.32.1 \
   # renovate: datasource=npm depName=opencode-ai
