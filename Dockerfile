@@ -89,12 +89,12 @@ ARG \
   # renovate: datasource=repology depName=debian_13/vim
   VIM_VERSION=2:9.1.1230-2 \
   # renovate: datasource=github-tags depName=golang packageName=golang/go versioning=go-mod-directive
-  GO_VERSION=go1.25.5 \
+  GO_VERSION=go1.26.1 \
   GO_BASE_URL="https://go.dev/dl/${GO_VERSION}" \
   GO_AMD64=linux-amd64.tar.gz	\
-  GO_AMD64_SHA256="9e9b755d63b36acf30c12a9a3fc379243714c1c6d3dd72861da637f336ebb35b" \
+  GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a" \
   GO_ARM64=linux-arm64.tar.gz \
-  GO_ARM64_SHA256="b00b694903d126c588c378e72d3545549935d3982635ba3f7a964c9fa23fe3b9"
+  GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
 
 RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
   apt-get update && \
