@@ -1,4 +1,4 @@
-FROM node:24-trixie@sha256:81649592d9833d9220423561fc517b34e932b751873274024c2a969ff4a9bfc2
+FROM node:24-trixie@sha256:8bd2aa8811c33803aa1677674e5388a4524e8bf1d286200afefb9a4c9bd473ef
 
 ARG TZ
 ENV TZ="$TZ"
@@ -19,13 +19,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.70 \
+  CLAUDE_CLI_VERSION=2.1.79 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.112.0 \
+  CODEX_CLI_VERSION=0.116.0-alpha.11-win32-x64 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.32.1 \
+  GEMINI_CLI_VERSION=0.34.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.2.20 \
+  OPENCODE_AI_VERSION=1.2.27 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
@@ -81,7 +81,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/ripgrep
   RIPGREP_VERSION=14.1.1-1+b4 \
   # renovate: datasource=repology depName=debian_13/sudo
-  SUDO_VERSION=1.9.16p2-3 \
+  SUDO_VERSION=1.9.16p2-3+deb13u1 \
   # renovate: datasource=repology depName=debian_13/tree
   TREE_VERSION=2.2.1-1 \
   # renovate: datasource=repology depName=debian_13/unzip
