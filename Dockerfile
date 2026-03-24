@@ -53,7 +53,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.18-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
-  BW_VERSION=0.11.1-1 \
+  BW_VERSION=0.11.0-2 \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
