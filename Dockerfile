@@ -52,6 +52,8 @@ ARG \
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.18-1~deb13u1 \
+  # renovate: datasource=repology depName=debian_13/bubblewrap
+  BW_VERSION=0.11.1-1 \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -102,6 +104,7 @@ RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" 
     aggregate="${AGGREGATE_VERSION}" \
     bc="${BC_VERSION_HACK}" \
     bind9-dnsutils="${BIND9_VERSION}" \
+    bubblewrap="${BW_VERSION}" \
     fzf="${FZF_VERSION}" \
     gh="${GH_VERSION}" \
     git="${GIT_VERSION}" \
