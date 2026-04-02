@@ -3,4 +3,16 @@
   extends: [
     'github>libops/renovate-config:default.json5',
   ],
+  packageRules: [
+    {
+      matchDatasources: ['npm'],
+      matchPackageNames: [
+        '@anthropic-ai/claude-code',
+        '@google/gemini-cli',
+        '@openai/codex',
+        'opencode-ai',
+      ],
+      allowedVersions: '/^\\d+\\.\\d+\\.\\d+$/',
+    },
+  ],
 }
