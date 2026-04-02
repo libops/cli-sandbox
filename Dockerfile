@@ -76,6 +76,8 @@ ARG \
   MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
   MAN_DB_VERSION=2.13.1-1 \
+  # renovate: datasource=repology depName=debian_13/man-db
+  MARIADB_VERSION=1:11.8.6-0+deb13u1 \
   # renovate: datasource=repology depName=debian_13/patch
   PATCH_VERSION=2.8-2 \
   # renovate: datasource=repology depName=debian_13/psmisc
@@ -118,6 +120,7 @@ RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" 
     less="${LESS_VERSION}" \
     make="${MAKE_VERSION}" \
     man-db="${MAN_DB_VERSION}" \
+    mariadb-client="${MARIADB_VERSION}" \
     patch="${PATCH_VERSION}" \
     psmisc="${PSMISC_VERSION}" \
     procps="${PROCPS_VERSION}" \
