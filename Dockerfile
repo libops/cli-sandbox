@@ -82,7 +82,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/patch
   PATCH_VERSION=2.8-2 \
   # renovate: datasource=repology depName=debian_13/php
-  PHP_VERSION=2:8.4+96 \
+  PHP_VERSION=96 \
   # renovate: datasource=repology depName=debian_13/composer
   COMPOSER_VERSION=2.8.8-1+deb13u1 \
   # renovate: datasource=repology depName=debian_13/psmisc
