@@ -13,11 +13,10 @@ WORKDIR /workspace
 USER node
 ENV \
   NPM_CONFIG_PREFIX=/usr/local/share/npm-global \
-  PATH=$PATH:/usr/local/share/npm-global/bin \
+  PATH=$PATH:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
   SHELL=/bin/bash \
   EDITOR=vim \
-  COMPOSER_HOME=/home/node/.composer \
-  PATH=$PATH:/home/node/.composer/vendor/bin
+  COMPOSER_HOME=/home/node/.composer
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
