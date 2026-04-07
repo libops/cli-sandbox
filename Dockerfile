@@ -15,7 +15,9 @@ ENV \
   NPM_CONFIG_PREFIX=/usr/local/share/npm-global \
   PATH=$PATH:/usr/local/share/npm-global/bin \
   SHELL=/bin/bash \
-  EDITOR=vim
+  EDITOR=vim \
+  COMPOSER_HOME=/home/node/.composer \
+  PATH=$PATH:/home/node/.composer/vendor/bin
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
@@ -80,6 +82,10 @@ ARG \
   MARIADB_VERSION=1:11.8.6-0+deb13u1 \
   # renovate: datasource=repology depName=debian_13/patch
   PATCH_VERSION=2.8-2 \
+  # renovate: datasource=repology depName=debian_13/php
+  PHP_VERSION=2:8.4+96 \
+  # renovate: datasource=repology depName=debian_13/composer
+  COMPOSER_VERSION=2.8.8-1+deb13u1 \
   # renovate: datasource=repology depName=debian_13/psmisc
   PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
@@ -109,6 +115,7 @@ RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" 
     bc="${BC_VERSION_HACK}" \
     bind9-dnsutils="${BIND9_VERSION}" \
     bubblewrap="${BW_VERSION}" \
+    composer="${COMPOSER_VERSION}" \
     fzf="${FZF_VERSION}" \
     gh="${GH_VERSION}" \
     git="${GIT_VERSION}" \
@@ -122,6 +129,15 @@ RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" 
     man-db="${MAN_DB_VERSION}" \
     mariadb-client="${MARIADB_VERSION}" \
     patch="${PATCH_VERSION}" \
+    php-cli="${PHP_DEFAULTS_VERSION}" \
+    php-curl="${PHP_DEFAULTS_VERSION}" \
+    php-gd="${PHP_DEFAULTS_VERSION}" \
+    php-intl="${PHP_DEFAULTS_VERSION}" \
+    php-mbstring="${PHP_DEFAULTS_VERSION}" \
+    php-mysql="${PHP_DEFAULTS_VERSION}" \
+    php-sqlite3="${PHP_DEFAULTS_VERSION}" \
+    php-xml="${PHP_DEFAULTS_VERSION}" \
+    php-zip="${PHP_DEFAULTS_VERSION}" \
     psmisc="${PSMISC_VERSION}" \
     procps="${PROCPS_VERSION}" \
     ripgrep="${RIPGREP_VERSION}" \
@@ -147,7 +163,7 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
   --dest /usr/local ; \
   fi
 
-ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin
+ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -163,7 +179,9 @@ COPY force-tty.js /home/node/.force-tty.js
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin \
+  COMPOSER_HOME="/home/node/.composer" \
+  COMPOSER_MEMORY_LIMIT=-1 \
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
   SKIP_EGRESS_FIREWALL="false"
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
