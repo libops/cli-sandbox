@@ -1,4 +1,4 @@
-FROM node:24-trixie@sha256:7be184df20f768d6d3872914b6c9993964aa0b61ee05fc1270c004033c949773
+FROM node:24-trixie@sha256:e4ceb04a1f1dd4823a1ab6ef8d2182c09d6299b507c70f20bd0eb9921a78354d
 
 ARG TZ
 ENV TZ="$TZ"
@@ -26,7 +26,7 @@ ARG \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.36.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.3.13 \
+  OPENCODE_AI_VERSION=1.3.15 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
