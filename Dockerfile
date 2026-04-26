@@ -181,7 +181,7 @@ ENV \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
   COMPOSER_HOME="/home/node/.composer" \
   COMPOSER_MEMORY_LIMIT=-1 \
-  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/home/node/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
   SKIP_EGRESS_FIREWALL="false"
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
