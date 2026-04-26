@@ -187,6 +187,7 @@ ENV \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
-RUN if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
+RUN go install golang.org/x/tools/gopls@v0.21.1 && \
+  if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
