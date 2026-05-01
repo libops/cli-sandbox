@@ -1,3 +1,53 @@
+# renovate: datasource=golang-version depName=go versioning=semver
+ARG GO_VERSION=1.26.1
+ARG GO_AMD64=linux-amd64.tar.gz
+ARG GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
+ARG GO_ARM64=linux-arm64.tar.gz
+ARG GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
+
+# renovate: datasource=go depName=golang.org/x/tools/gopls
+ARG GOPLS_VERSION=v0.21.1
+# renovate: datasource=go depName=golang.org/x/vuln
+ARG GOVULNCHECK_VERSION=v1.3.0
+# renovate: datasource=go depName=github.com/securego/gosec/v2
+ARG GOSEC_VERSION=v2.26.1
+
+FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d AS go-tools-builder
+
+ARG \
+  TARGETARCH \
+  GO_VERSION \
+  GO_AMD64 \
+  GO_AMD64_SHA256 \
+  GO_ARM64 \
+  GO_ARM64_SHA256 \
+  GOPLS_VERSION \
+  GOVULNCHECK_VERSION \
+  GOSEC_VERSION
+
+COPY download.sh /usr/local/bin
+RUN --mount=type=cache,id=go-tools-downloads-${TARGETARCH},sharing=locked,target=/opt/downloads \
+  if [ "${TARGETARCH}" = "amd64" ]; \
+  then \
+  download.sh \
+  --url "https://go.dev/dl/go${GO_VERSION}.${GO_AMD64}" \
+  --sha256 "${GO_AMD64_SHA256}" \
+  --dest /usr/local ; \
+  else \
+  download.sh \
+  --url "https://go.dev/dl/go${GO_VERSION}.${GO_ARM64}" \
+  --sha256 "${GO_ARM64_SHA256}" \
+  --dest /usr/local ; \
+  fi
+
+ENV PATH=/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin
+
+RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root/go/pkg/mod \
+  --mount=type=cache,id=go-tools-build-${TARGETARCH},sharing=locked,target=/root/.cache/go-build \
+  go install golang.org/x/tools/gopls@"${GOPLS_VERSION}" && \
+  go install golang.org/x/vuln/cmd/govulncheck@"${GOVULNCHECK_VERSION}" && \
+  go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}"
+
 FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d
 
 ARG TZ
@@ -10,41 +60,6 @@ RUN mkdir -p /usr/local/share/npm-global && \
 
 WORKDIR /workspace
 
-USER node
-ENV \
-  NPM_CONFIG_PREFIX=/usr/local/share/npm-global \
-  PATH=$PATH:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
-  SHELL=/bin/bash \
-  EDITOR=vim \
-  COMPOSER_HOME=/home/node/.composer
-
-ARG \
-  # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.121 \
-  # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.128.0 \
-  # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.39.1 \
-  # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.28 \
-  CLI=""
-
-RUN if [ -n "$CLI" ]; then \
-    case "$CLI" in \
-      claude) npm install -g "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" ;; \
-      codex) npm install -g "@openai/codex@$CODEX_CLI_VERSION" ;; \
-      gemini) npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION" ;; \
-      opencode) npm install -g "opencode-ai@$OPENCODE_AI_VERSION" ;; \
-    esac; \
-  else \
-    npm install -g \
-      "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
-      "@openai/codex@$CODEX_CLI_VERSION" \
-      "@google/gemini-cli@$GEMINI_CLI_VERSION" \
-      "opencode-ai@$OPENCODE_AI_VERSION"; \
-  fi
-
-USER root
 ARG \
   TARGETARCH \
   # renovate: datasource=repology depName=debian_13/aggregate
@@ -99,21 +114,15 @@ ARG \
   UNZIP_VERSION=6.0-29 \
   # renovate: datasource=repology depName=debian_13/vim
   VIM_VERSION=2:9.1.1230-2 \
-  # renovate: datasource=github-tags depName=golang packageName=golang/go versioning=go-mod-directive
-  GO_VERSION=go1.26.1 \
-  GO_BASE_URL="https://go.dev/dl/${GO_VERSION}" \
-  GO_AMD64=linux-amd64.tar.gz	\
-  GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a" \
-  GO_ARM64=linux-arm64.tar.gz \
-  GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7" \
-  # renovate: datasource=go depName=golang.org/x/tools/gopls
-  GOPLS_VERSION=v0.21.1 \
-  # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.3.0 \
-  # renovate: datasource=go depName=github.com/securego/gosec/v2
-  GOSEC_VERSION=v2.26.1
+  GO_VERSION \
+  GO_AMD64 \
+  GO_AMD64_SHA256 \
+  GO_ARM64 \
+  GO_ARM64_SHA256
 
-RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
+RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cache/apt \
+  BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
+  rm -f /etc/apt/apt.conf.d/docker-clean && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
     aggregate="${AGGREGATE_VERSION}" \
@@ -151,7 +160,6 @@ RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" 
     tree="${TREE_VERSION}" \
     unzip="${UNZIP_VERSION}" \
     vim="${VIM_VERSION}" && \
-  apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 COPY download.sh /usr/local/bin
@@ -159,17 +167,21 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
   if [ "${TARGETARCH}" = "amd64" ]; \
   then \
   download.sh \
-  --url "${GO_BASE_URL}.${GO_AMD64}" \
+  --url "https://go.dev/dl/go${GO_VERSION}.${GO_AMD64}" \
   --sha256 "${GO_AMD64_SHA256}" \
   --dest /usr/local ; \
   else \
   download.sh \
-  --url "${GO_BASE_URL}.${GO_ARM64}" \
+  --url "https://go.dev/dl/go${GO_VERSION}.${GO_ARM64}" \
   --sha256 "${GO_ARM64_SHA256}" \
   --dest /usr/local ; \
   fi
 
 ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin
+
+COPY --from=go-tools-builder /root/go/bin/gopls /usr/local/bin/
+COPY --from=go-tools-builder /root/go/bin/govulncheck /usr/local/bin/
+COPY --from=go-tools-builder /root/go/bin/gosec /usr/local/bin/
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -179,6 +191,39 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
 USER node
+
+ENV \
+  NPM_CONFIG_PREFIX=/usr/local/share/npm-global \
+  PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/home/node/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
+  SHELL=/bin/bash \
+  EDITOR=vim \
+  COMPOSER_HOME=/home/node/.composer
+
+ARG \
+  # renovate: datasource=npm depName=@anthropic-ai/claude-code
+  CLAUDE_CLI_VERSION=2.1.121 \
+  # renovate: datasource=npm depName=@openai/codex
+  CODEX_CLI_VERSION=0.128.0 \
+  # renovate: datasource=npm depName=@google/gemini-cli
+  GEMINI_CLI_VERSION=0.39.1 \
+  # renovate: datasource=npm depName=opencode-ai
+  OPENCODE_AI_VERSION=1.14.28 \
+  CLI=""
+
+RUN if [ -n "$CLI" ]; then \
+    case "$CLI" in \
+      claude) npm install -g "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" ;; \
+      codex) npm install -g "@openai/codex@$CODEX_CLI_VERSION" ;; \
+      gemini) npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION" ;; \
+      opencode) npm install -g "opencode-ai@$OPENCODE_AI_VERSION" ;; \
+    esac; \
+  else \
+    npm install -g \
+      "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
+      "@openai/codex@$CODEX_CLI_VERSION" \
+      "@google/gemini-cli@$GEMINI_CLI_VERSION" \
+      "opencode-ai@$OPENCODE_AI_VERSION"; \
+  fi
 
 COPY force-tty.js /home/node/.force-tty.js
 
@@ -194,9 +239,6 @@ ENV \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
-RUN go install golang.org/x/tools/gopls@"${GOPLS_VERSION}" && \
-  go install golang.org/x/vuln/cmd/govulncheck@"${GOVULNCHECK_VERSION}" && \
-  go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}" && \
-  if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
+RUN if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]

@@ -5,6 +5,17 @@
   ],
   packageRules: [
     {
+      matchDatasources: ['golang-version'],
+      matchPackageNames: ['go'],
+      postUpgradeTasks: {
+        commands: ['./scripts/update-go-shas.sh'],
+        fileFilters: [
+          'Dockerfile',
+        ],
+        executionMode: 'update',
+      },
+    },
+    {
       matchDatasources: ['npm'],
       matchPackageNames: [
         '@anthropic-ai/claude-code',
