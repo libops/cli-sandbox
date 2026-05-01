@@ -5,8 +5,8 @@ ENV TZ="$TZ"
 
 RUN mkdir -p /usr/local/share/npm-global && \
   chown -R node:node /usr/local/share && \
-  mkdir -p /workspace /home/node/.claude && \
-  chown -R node:node /workspace /home/node/.claude
+  mkdir -p /workspace /home/node/.claude /home/node/.codex && \
+  chown -R node:node /workspace /home/node/.claude /home/node/.codex
 
 WORKDIR /workspace
 
@@ -22,7 +22,7 @@ ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.117 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.125.0 \
+  CODEX_CLI_VERSION=0.128.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.38.2 \
   # renovate: datasource=npm depName=opencode-ai
@@ -105,7 +105,13 @@ ARG \
   GO_AMD64=linux-amd64.tar.gz	\
   GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a" \
   GO_ARM64=linux-arm64.tar.gz \
-  GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
+  GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7" \
+  # renovate: datasource=go depName=golang.org/x/tools/gopls
+  GOPLS_VERSION=v0.21.1 \
+  # renovate: datasource=go depName=golang.org/x/vuln
+  GOVULNCHECK_VERSION=v1.2.0 \
+  # renovate: datasource=go depName=github.com/securego/gosec/v2
+  GOSEC_VERSION=v2.25.0
 
 RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
   apt-get update && \
@@ -179,6 +185,7 @@ COPY force-tty.js /home/node/.force-tty.js
 ENV \
   NODE_OPTIONS="--max-old-space-size=4096 --require /home/node/.force-tty.js" \
   CLAUDE_CONFIG_DIR="/home/node/.claude" \
+  CODEX_HOME="/home/node/.codex" \
   COMPOSER_HOME="/home/node/.composer" \
   COMPOSER_MEMORY_LIMIT=-1 \
   PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/home/node/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
@@ -187,7 +194,9 @@ ENV \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
-RUN go install golang.org/x/tools/gopls@v0.21.1 && \
+RUN go install golang.org/x/tools/gopls@"${GOPLS_VERSION}" && \
+  go install golang.org/x/vuln/cmd/govulncheck@"${GOVULNCHECK_VERSION}" && \
+  go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}" && \
   if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
