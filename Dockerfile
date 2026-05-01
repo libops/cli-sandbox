@@ -20,13 +20,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.117 \
+  CLAUDE_CLI_VERSION=2.1.121 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.128.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.38.2 \
+  GEMINI_CLI_VERSION=0.39.1 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.20 \
+  OPENCODE_AI_VERSION=1.14.28 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
@@ -109,9 +109,9 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
   GOPLS_VERSION=v0.21.1 \
   # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.2.0 \
+  GOVULNCHECK_VERSION=v1.3.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
-  GOSEC_VERSION=v2.25.0
+  GOSEC_VERSION=v2.26.1
 
 RUN BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
   apt-get update && \
