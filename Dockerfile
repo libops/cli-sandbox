@@ -5,12 +5,15 @@ ARG GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327
 ARG GO_ARM64=linux-arm64.tar.gz
 ARG GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
 
-# renovate: datasource=go depName=golang.org/x/tools/gopls
-ARG GOPLS_VERSION=v0.21.1
-# renovate: datasource=go depName=golang.org/x/vuln
-ARG GOVULNCHECK_VERSION=v1.3.0
-# renovate: datasource=go depName=github.com/securego/gosec/v2
-ARG GOSEC_VERSION=v2.26.1
+ARG \
+  # renovate: datasource=go depName=golang.org/x/tools/gopls
+  GOPLS_VERSION=v0.21.1 \
+  # renovate: datasource=go depName=golang.org/x/vuln
+  GOVULNCHECK_VERSION=v1.3.0 \
+  # renovate: datasource=go depName=github.com/securego/gosec/v2
+  GOSEC_VERSION=v2.26.1 \
+  # renovate: datasource=go depName=github.com/rhysd/actionlint
+  ACTIONLINT_VERSION=v1.7.12
 
 FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d AS go-tools-builder
 
@@ -23,7 +26,8 @@ ARG \
   GO_ARM64_SHA256 \
   GOPLS_VERSION \
   GOVULNCHECK_VERSION \
-  GOSEC_VERSION
+  GOSEC_VERSION \
+  ACTIONLINT_VERSION
 
 COPY download.sh /usr/local/bin
 RUN --mount=type=cache,id=go-tools-downloads-${TARGETARCH},sharing=locked,target=/opt/downloads \
@@ -46,7 +50,8 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   --mount=type=cache,id=go-tools-build-${TARGETARCH},sharing=locked,target=/root/.cache/go-build \
   go install golang.org/x/tools/gopls@"${GOPLS_VERSION}" && \
   go install golang.org/x/vuln/cmd/govulncheck@"${GOVULNCHECK_VERSION}" && \
-  go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}"
+  go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}" && \
+  go install github.com/rhysd/actionlint/cmd/actionlint@"${ACTIONLINT_VERSION}"
 
 FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d
 
@@ -182,6 +187,7 @@ ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-glo
 COPY --from=go-tools-builder /root/go/bin/gopls /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/govulncheck /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/gosec /usr/local/bin/
+COPY --from=go-tools-builder /root/go/bin/actionlint /usr/local/bin/
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
