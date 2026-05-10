@@ -1,9 +1,9 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.26.1
+ARG GO_VERSION=1.26.3
 ARG GO_AMD64=linux-amd64.tar.gz
-ARG GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
+ARG GO_AMD64_SHA256="2b2cfc7148493da5e73981bffbf3353af381d5f93e789c82c79aff64962eb556"
 ARG GO_ARM64=linux-arm64.tar.gz
-ARG GO_ARM64_SHA256="a290581cfe4fe28ddd737dde3095f3dbeb7f2e4065cab4eae44dfc53b760c2f7"
+ARG GO_ARM64_SHA256="9d89a3ea57d141c2b22d70083f2c8459ba3890f2d9e818e7e933b75614936565"
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
@@ -13,9 +13,13 @@ ARG \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
   GOSEC_VERSION=v2.26.1 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
-  ACTIONLINT_VERSION=v1.7.12
+  ACTIONLINT_VERSION=v1.7.12 \
+  # renovate: datasource=go depName=github.com/bufbuild/buf
+  BUF_VERSION=v1.69.0 \
+  # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
+  SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d AS go-tools-builder
+FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -27,7 +31,9 @@ ARG \
   GOPLS_VERSION \
   GOVULNCHECK_VERSION \
   GOSEC_VERSION \
-  ACTIONLINT_VERSION
+  ACTIONLINT_VERSION \
+  BUF_VERSION \
+  SQLC_VERSION
 
 COPY download.sh /usr/local/bin
 RUN --mount=type=cache,id=go-tools-downloads-${TARGETARCH},sharing=locked,target=/opt/downloads \
@@ -51,9 +57,11 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install golang.org/x/tools/gopls@"${GOPLS_VERSION}" && \
   go install golang.org/x/vuln/cmd/govulncheck@"${GOVULNCHECK_VERSION}" && \
   go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}" && \
-  go install github.com/rhysd/actionlint/cmd/actionlint@"${ACTIONLINT_VERSION}"
+  go install github.com/rhysd/actionlint/cmd/actionlint@"${ACTIONLINT_VERSION}" && \
+  go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
+  go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d
+FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667
 
 ARG TZ
 ENV TZ="$TZ"
@@ -113,6 +121,8 @@ ARG \
   RIPGREP_VERSION=14.1.1-1+b4 \
   # renovate: datasource=repology depName=debian_13/sudo
   SUDO_VERSION=1.9.16p2-3+deb13u1 \
+  # renovate: datasource=repology depName=debian_13/terraform
+  TERRAFORM_VERSION=1.15.2-1 \
   # renovate: datasource=repology depName=debian_13/tree
   TREE_VERSION=2.2.1-1 \
   # renovate: datasource=repology depName=debian_13/unzip
@@ -125,9 +135,13 @@ ARG \
   GO_ARM64 \
   GO_ARM64_SHA256
 
+SHELL ["/bin/bash", "-o", "pipefail", "-ex", "-c"]
+
 RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cache/apt \
   BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
   rm -f /etc/apt/apt.conf.d/docker-clean && \
+  wget -q -O - https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com trixie main" | tee /etc/apt/sources.list.d/hashicorp.list && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
     aggregate="${AGGREGATE_VERSION}" \
@@ -164,7 +178,8 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     sudo="${SUDO_VERSION}" \
     tree="${TREE_VERSION}" \
     unzip="${UNZIP_VERSION}" \
-    vim="${VIM_VERSION}" && \
+    vim="${VIM_VERSION}" \
+    terraform="${TERRAFORM_VERSION}" && \
   rm -rf /var/lib/apt/lists/*
 
 COPY download.sh /usr/local/bin
@@ -188,6 +203,8 @@ COPY --from=go-tools-builder /root/go/bin/gopls /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/govulncheck /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/gosec /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/actionlint /usr/local/bin/
+COPY --from=go-tools-builder /root/go/bin/sqlc /usr/local/bin/
+COPY --from=go-tools-builder /root/go/bin/buf /usr/local/bin/
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -207,13 +224,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.121 \
+  CLAUDE_CLI_VERSION=2.1.132 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.128.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.39.1 \
+  GEMINI_CLI_VERSION=0.41.2 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.28 \
+  OPENCODE_AI_VERSION=1.14.40 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
