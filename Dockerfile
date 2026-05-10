@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.26.1
+ARG GO_VERSION=1.26.3
 ARG GO_AMD64=linux-amd64.tar.gz
 ARG GO_AMD64_SHA256="031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
 ARG GO_ARM64=linux-arm64.tar.gz
@@ -15,7 +15,7 @@ ARG \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12
 
-FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d AS go-tools-builder
+FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -53,7 +53,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/securego/gosec/v2/cmd/gosec@"${GOSEC_VERSION}" && \
   go install github.com/rhysd/actionlint/cmd/actionlint@"${ACTIONLINT_VERSION}"
 
-FROM node:24-trixie@sha256:135dc9a66aef366e09958c18dab705081d77fb31eccffe8c3865fac9d3e42a1d
+FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667
 
 ARG TZ
 ENV TZ="$TZ"
@@ -207,13 +207,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.121 \
+  CLAUDE_CLI_VERSION=2.1.132 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.128.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.39.1 \
+  GEMINI_CLI_VERSION=0.41.2 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.28 \
+  OPENCODE_AI_VERSION=1.14.40 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
