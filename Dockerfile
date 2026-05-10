@@ -230,7 +230,7 @@ ARG \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.41.2 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.40 \
+  OPENCODE_AI_VERSION=1.14.41 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
