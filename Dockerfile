@@ -231,6 +231,8 @@ ARG \
   GEMINI_CLI_VERSION=0.42.0 \
   # renovate: datasource=npm depName=opencode-ai
   OPENCODE_AI_VERSION=1.14.48 \
+  # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
+  PI_CLI_VERSION=0.75.3 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
@@ -239,13 +241,15 @@ RUN if [ -n "$CLI" ]; then \
       codex) npm install -g "@openai/codex@$CODEX_CLI_VERSION" ;; \
       gemini) npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION" ;; \
       opencode) npm install -g "opencode-ai@$OPENCODE_AI_VERSION" ;; \
+      pi) npm install -g "@earendil-works/pi-coding-agent@$PI_CLI_VERSION" ;; \
     esac; \
   else \
     npm install -g \
       "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
       "@openai/codex@$CODEX_CLI_VERSION" \
       "@google/gemini-cli@$GEMINI_CLI_VERSION" \
-      "opencode-ai@$OPENCODE_AI_VERSION"; \
+      "opencode-ai@$OPENCODE_AI_VERSION" \
+      "@earendil-works/pi-coding-agent@$PI_CLI_VERSION"; \
   fi
 
 COPY force-tty.js /home/node/.force-tty.js
