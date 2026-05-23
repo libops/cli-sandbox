@@ -7,7 +7,7 @@ ARG GO_ARM64_SHA256="9d89a3ea57d141c2b22d70083f2c8459ba3890f2d9e818e7e933b756149
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
-  GOPLS_VERSION=v0.21.1 \
+  GOPLS_VERSION=v0.22.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
   GOVULNCHECK_VERSION=v1.3.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667 AS go-tools-builder
+FROM node:24-trixie@sha256:f072159a6b98a624e09f2c4815fe473217fc019a97524fd593059c8a4ad5a05d AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:83bd9709839251476a4caa7b5a7139d5ca372affcd35eccac688b04aa0e93667
+FROM node:24-trixie@sha256:f072159a6b98a624e09f2c4815fe473217fc019a97524fd593059c8a4ad5a05d
 
 ARG TZ
 ENV TZ="$TZ"
@@ -80,9 +80,9 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.21-1~deb13u1 \
+  BIND9_VERSION=1:9.20.23-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
-  BW_VERSION=0.11.0-2 \
+  BW_VERSION=0.11.0-2+deb13u1 \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -98,7 +98,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/iptables
   IPTABLES_VERSION=1.8.11-2 \
   # renovate: datasource=repology depName=debian_13/jq
-  JQ_VERSION=1.7.1-6+deb13u1 \
+  JQ_VERSION=1.7.1-6+deb13u2 \
   # renovate: datasource=repology depName=debian_13/less
   LESS_VERSION=668-1 \
   # renovate: datasource=repology depName=debian_13/make-dfsg
@@ -112,7 +112,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/php
   PHP_VERSION=2:8.4+96 \
   # renovate: datasource=repology depName=debian_13/composer
-  COMPOSER_VERSION=2.8.8-1+deb13u1 \
+  COMPOSER_VERSION=2.8.8-1+deb13u2 \
   # renovate: datasource=repology depName=debian_13/psmisc
   PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
@@ -120,7 +120,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/ripgrep
   RIPGREP_VERSION=14.1.1-1+b4 \
   # renovate: datasource=repology depName=debian_13/sudo
-  SUDO_VERSION=1.9.16p2-3+deb13u1 \
+  SUDO_VERSION=1.9.16p2-3+deb13u2 \
   # renovate: datasource=repology depName=debian_13/terraform
   TERRAFORM_VERSION=1.15.2-1 \
   # renovate: datasource=repology depName=debian_13/tree
@@ -224,13 +224,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.140 \
+  CLAUDE_CLI_VERSION=2.1.145 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.130.0 \
+  CODEX_CLI_VERSION=0.132.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.42.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.14.48 \
+  OPENCODE_AI_VERSION=1.15.5 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.75.3 \
   CLI=""
