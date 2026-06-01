@@ -15,7 +15,7 @@ ARG \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
-  BUF_VERSION=v1.69.0 \
+  BUF_VERSION=v1.70.0 \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
@@ -224,15 +224,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.145 \
+  CLAUDE_CLI_VERSION=2.1.156 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.132.0 \
+  CODEX_CLI_VERSION=0.135.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.42.0 \
+  GEMINI_CLI_VERSION=0.44.1 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.15.5 \
+  OPENCODE_AI_VERSION=1.15.12 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.75.3 \
+  PI_CLI_VERSION=0.77.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
