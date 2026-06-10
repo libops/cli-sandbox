@@ -83,6 +83,14 @@ ARG \
   BIND9_VERSION=1:9.20.23-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.11.0-2+deb13u1 \
+  # renovate: datasource=deb depName=docker-ce
+  DOCKER_CE_VERSION=5:29.5.3-1~debian.13~trixie \
+  # renovate: datasource=deb depName=containerd.io
+  CONTAINERD_IO_VERSION=2.2.4-1~debian.13~trixie \
+  # renovate: datasource=deb depName=docker-buildx-plugin
+  DOCKER_BUILDX_PLUGIN_VERSION=0.34.1-1~debian.13~trixie \
+  # renovate: datasource=deb depName=docker-compose-plugin
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.1.4-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -140,6 +148,17 @@ SHELL ["/bin/bash", "-o", "pipefail", "-ex", "-c"]
 RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cache/apt \
   BC_VERSION_HACK="${BC_VERSION}$([ "${TARGETARCH}" = "arm64" ] && echo "+b1" || echo "")" && \
   rm -f /etc/apt/apt.conf.d/docker-clean && \
+  install -m 0755 -d /etc/apt/keyrings && \
+  wget -q -O /etc/apt/keyrings/docker.asc https://download.docker.com/linux/debian/gpg && \
+  chmod a+r /etc/apt/keyrings/docker.asc && \
+  printf '%s\n' \
+    'Types: deb' \
+    'URIs: https://download.docker.com/linux/debian' \
+    'Suites: trixie' \
+    'Components: stable' \
+    "Architectures: $(dpkg --print-architecture)" \
+    'Signed-By: /etc/apt/keyrings/docker.asc' \
+    > /etc/apt/sources.list.d/docker.sources && \
   wget -q -O - https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com trixie main" | tee /etc/apt/sources.list.d/hashicorp.list && \
   apt-get update && \
@@ -149,6 +168,11 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     bind9-dnsutils="${BIND9_VERSION}" \
     bubblewrap="${BW_VERSION}" \
     composer="${COMPOSER_VERSION}" \
+    containerd.io="${CONTAINERD_IO_VERSION}" \
+    docker-buildx-plugin="${DOCKER_BUILDX_PLUGIN_VERSION}" \
+    docker-ce="${DOCKER_CE_VERSION}" \
+    docker-ce-cli="${DOCKER_CE_VERSION}" \
+    docker-compose-plugin="${DOCKER_COMPOSE_PLUGIN_VERSION}" \
     fzf="${FZF_VERSION}" \
     gh="${GH_VERSION}" \
     git="${GIT_VERSION}" \
@@ -180,6 +204,12 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     unzip="${UNZIP_VERSION}" \
     vim="${VIM_VERSION}" \
     terraform="${TERRAFORM_VERSION}" && \
+  apt-mark hold \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-ce \
+    docker-ce-cli \
+    docker-compose-plugin && \
   rm -rf /var/lib/apt/lists/*
 
 COPY download.sh /usr/local/bin

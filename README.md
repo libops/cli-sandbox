@@ -27,6 +27,41 @@ docker run \
 # chit chat
 ```
 
+### Using Docker inside the sandbox
+
+The image ships the Docker CLI, so you can drive the host's Docker daemon from
+inside the sandbox by bind-mounting the daemon socket.
+
+The container runs as the unprivileged `node` user, and access to
+`/var/run/docker.sock` is controlled by the **group** that owns it on the host.
+That group's numeric GID varies by host and rarely matches any group inside the
+image, so grant it explicitly at launch with `--group-add`:
+
+```bash
+docker run \
+  --cap-add=NET_ADMIN --cap-add=NET_RAW \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --group-add "$(stat -c %g /var/run/docker.sock)" \
+  -v ./:/workspace \
+  -w /workspace \
+  --rm -it \
+  ghcr.io/libops/cli-sandbox:main \
+  claude
+```
+
+`--group-add` adds the socket's GID to `node`'s supplementary groups at
+container start, so `docker ps` works immediately — no entrypoint changes and
+no editing the socket (which is typically mounted read-only). Inside the
+container, verify with `docker ps`.
+
+Notes:
+
+- This grants the container full control of the host Docker daemon, which is
+  effectively root on the host. Only do this for trusted workloads.
+- `stat -c %g` is Linux. On Docker Desktop (macOS/Windows) the socket GID
+  differs; check it with `ls -ln /var/run/docker.sock` and pass that number, or
+  use `group_add` in a compose file.
+
 ### alias
 
 With the following in your shell's dot file, you can

@@ -3,6 +3,17 @@
   extends: [
     'github>libops/renovate-config:default.json5',
   ],
+  customManagers: [
+    {
+      customType: 'regex',
+      managerFilePatterns: ['/^Dockerfile$/'],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=deb\\s+depName=(?<depName>[^\\s]+)[^\\n]*\\n\\s+[A-Z0-9_]+_VERSION=(?<currentValue>[^\\s\\\\]+)',
+      ],
+      datasourceTemplate: 'deb',
+      registryUrlTemplate: 'https://download.docker.com/linux/debian?suite=trixie&components=stable&binaryArch=amd64',
+    },
+  ],
   packageRules: [
     {
       matchDatasources: ['golang-version'],
