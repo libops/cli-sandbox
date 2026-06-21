@@ -9,17 +9,17 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
   GOPLS_VERSION=v0.22.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.3.0 \
+  GOVULNCHECK_VERSION=v1.4.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
   GOSEC_VERSION=v2.27.1 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
-  BUF_VERSION=v1.70.0 \
+  BUF_VERSION=v1.71.0 \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:f072159a6b98a624e09f2c4815fe473217fc019a97524fd593059c8a4ad5a05d AS go-tools-builder
+FROM node:24-trixie@sha256:45da69d4ea0231f68ffde2056f47044538a3658235118cecad8cdfcc6dc126a0 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:f072159a6b98a624e09f2c4815fe473217fc019a97524fd593059c8a4ad5a05d
+FROM node:24-trixie@sha256:45da69d4ea0231f68ffde2056f47044538a3658235118cecad8cdfcc6dc126a0
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,9 +84,9 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.11.0-2+deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.5.3-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.6.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.2.4-1~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.2.5-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.34.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
@@ -254,15 +254,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.168 \
+  CLAUDE_CLI_VERSION=2.1.181 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.137.0 \
+  CODEX_CLI_VERSION=0.141.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.45.2 \
+  GEMINI_CLI_VERSION=0.47.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.16.2 \
+  OPENCODE_AI_VERSION=1.17.8 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.78.1 \
+  PI_CLI_VERSION=0.79.6 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
