@@ -1,6 +1,6 @@
 # cli-sandbox
 
-Run `claude`, `codex`, `gemini` or `opencode` in a docker container.
+Run `claude`, `codex`, `gemini`, `opencode`, or `pi` in a docker container.
 
 `iptables` is used inside the container to block all outbound traffic except GitHub, Anthropic, and Google Cloud internal IPs.
 
