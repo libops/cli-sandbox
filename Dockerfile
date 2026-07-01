@@ -254,15 +254,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.181 \
+  CLAUDE_CLI_VERSION=2.1.185 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.141.0 \
+  CODEX_CLI_VERSION=0.142.5 \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.47.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.17.8 \
+  OPENCODE_AI_VERSION=1.17.9 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.79.6 \
+  PI_CLI_VERSION=0.79.9 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
