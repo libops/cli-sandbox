@@ -15,7 +15,7 @@ jobs:
           verbose: true
   push:
     needs: [lint]
-    uses: libops/.github/.github/workflows/build-push.yaml@d7f0ba06b4c8a1f8559892ea65a0b1af4d024dd3 # main
+    uses: libops/.github/.github/workflows/build-push.yaml@3ef8469c16c40842cc1b0b9195df2850ad8e616f # main
     permissions:
       contents: read
       packages: write
@@ -33,14 +33,14 @@ jobs:
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
-      - uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4
+      - uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
 
-      - uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
+      - uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4
 
       - name: login
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
-      - uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7
+      - uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
         with:
           platforms: linux/amd64,linux/arm64
           build-args: CLI=${{ matrix.cli }}
