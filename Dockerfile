@@ -7,9 +7,9 @@ ARG GO_ARM64_SHA256="fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd6
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
-  GOPLS_VERSION=v0.22.0 \
+  GOPLS_VERSION=v0.23.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.5.0 \
+  GOVULNCHECK_VERSION=v1.6.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
   GOSEC_VERSION=v2.27.1 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
@@ -86,7 +86,7 @@ ARG \
   # renovate: datasource=deb depName=docker-ce
   DOCKER_CE_VERSION=5:29.6.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.2.5-1~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.2.6-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.35.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
@@ -254,13 +254,13 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.201 \
+  CLAUDE_CLI_VERSION=2.1.204 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.142.5 \
+  CODEX_CLI_VERSION=0.143.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
   GEMINI_CLI_VERSION=0.49.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.17.13 \
+  OPENCODE_AI_VERSION=1.17.15 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.80.3 \
   CLI=""
