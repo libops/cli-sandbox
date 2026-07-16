@@ -120,7 +120,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/php
   PHP_VERSION=2:8.4+96 \
   # renovate: datasource=repology depName=debian_13/composer
-  COMPOSER_VERSION=2.8.8-1+deb13u2 \
+  COMPOSER_VERSION=2.8.8-1+deb13u3 \
   # renovate: datasource=repology depName=debian_13/psmisc
   PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
@@ -167,7 +167,6 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     bc="${BC_VERSION_HACK}" \
     bind9-dnsutils="${BIND9_VERSION}" \
     bubblewrap="${BW_VERSION}" \
-    composer="${COMPOSER_VERSION}" \
     containerd.io="${CONTAINERD_IO_VERSION}" \
     docker-buildx-plugin="${DOCKER_BUILDX_PLUGIN_VERSION}" \
     docker-ce="${DOCKER_CE_VERSION}" \
@@ -187,6 +186,7 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     mariadb-client="${MARIADB_VERSION}" \
     patch="${PATCH_VERSION}" \
     php="${PHP_VERSION}" \
+    composer="${COMPOSER_VERSION}" \
     php-cli="${PHP_VERSION}" \
     php-curl="${PHP_VERSION}" \
     php-gd="${PHP_VERSION}" \
