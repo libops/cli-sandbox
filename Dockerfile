@@ -11,7 +11,7 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/vuln
   GOVULNCHECK_VERSION=v1.6.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
-  GOSEC_VERSION=v2.27.1 \
+  GOSEC_VERSION=v2.28.0 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:5ac1f09047e215d1e4df7fbdf95ff86ca14a35632380b6672d6c9c62d5ac3800 AS go-tools-builder
+FROM node:24-trixie@sha256:eb2c73a27cf714b4b6b030f88ab72e62192c38b7d313ea3456695b8ae03c5f3c AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:5ac1f09047e215d1e4df7fbdf95ff86ca14a35632380b6672d6c9c62d5ac3800
+FROM node:24-trixie@sha256:eb2c73a27cf714b4b6b030f88ab72e62192c38b7d313ea3456695b8ae03c5f3c
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,7 +84,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.11.0-2+deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.6.1-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.6.2-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
   CONTAINERD_IO_VERSION=2.2.6-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
@@ -120,7 +120,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/php
   PHP_VERSION=2:8.4+96 \
   # renovate: datasource=repology depName=debian_13/composer
-  COMPOSER_VERSION=2.8.8-1+deb13u2 \
+  COMPOSER_VERSION=2.8.8-1+deb13u3 \
   # renovate: datasource=repology depName=debian_13/psmisc
   PSMISC_VERSION=23.7-2 \
   # renovate: datasource=repology depName=debian_13/procps
@@ -167,7 +167,6 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     bc="${BC_VERSION_HACK}" \
     bind9-dnsutils="${BIND9_VERSION}" \
     bubblewrap="${BW_VERSION}" \
-    composer="${COMPOSER_VERSION}" \
     containerd.io="${CONTAINERD_IO_VERSION}" \
     docker-buildx-plugin="${DOCKER_BUILDX_PLUGIN_VERSION}" \
     docker-ce="${DOCKER_CE_VERSION}" \
@@ -187,6 +186,7 @@ RUN --mount=type=cache,id=apt-cache-${TARGETARCH},sharing=locked,target=/var/cac
     mariadb-client="${MARIADB_VERSION}" \
     patch="${PATCH_VERSION}" \
     php="${PHP_VERSION}" \
+    composer="${COMPOSER_VERSION}" \
     php-cli="${PHP_VERSION}" \
     php-curl="${PHP_VERSION}" \
     php-gd="${PHP_VERSION}" \
@@ -254,15 +254,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.204 \
+  CLAUDE_CLI_VERSION=2.1.208 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.144.1 \
+  CODEX_CLI_VERSION=0.144.5 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.49.0 \
+  GEMINI_CLI_VERSION=0.50.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.17.15 \
+  OPENCODE_AI_VERSION=1.17.20 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.80.3 \
+  PI_CLI_VERSION=0.80.6 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
