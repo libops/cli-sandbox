@@ -229,6 +229,11 @@ RUN --mount=type=cache,id=base-downloads-${TARGETARCH},sharing=locked,target=/op
 
 ENV PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin
 
+RUN printf '%s\n' \
+  "export PATH=\"/usr/local/go/bin:/home/node/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin:\$PATH\"" \
+  > /etc/profile.d/cli-sandbox-path.sh && \
+  chmod 0644 /etc/profile.d/cli-sandbox-path.sh
+
 COPY --from=go-tools-builder /root/go/bin/gopls /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/govulncheck /usr/local/bin/
 COPY --from=go-tools-builder /root/go/bin/gosec /usr/local/bin/
