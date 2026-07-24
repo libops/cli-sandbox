@@ -7,7 +7,7 @@ jobs:
       contents: read
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - run: shellcheck *.sh scripts/*.sh
       - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
         with:
@@ -15,7 +15,7 @@ jobs:
           verbose: true
   push:
     needs: [lint]
-    uses: libops/.github/.github/workflows/build-push.yaml@3ef8469c16c40842cc1b0b9195df2850ad8e616f # main
+    uses: libops/.github/.github/workflows/build-push.yaml@5f44a8c8d157bb7e5cf6d9e1c98847a604e87455 # main
     permissions:
       contents: read
       packages: write
@@ -31,7 +31,7 @@ jobs:
       matrix:
         cli: [claude, codex, gemini, opencode, pi]
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
 
