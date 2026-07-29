@@ -80,7 +80,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.23-1~deb13u1 \
+  BIND9_VERSION=1:9.20.26-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.11.0-2+deb13u1 \
   # renovate: datasource=deb depName=docker-ce
@@ -259,15 +259,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.216 \
+  CLAUDE_CLI_VERSION=2.1.220 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.145.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.51.0 \
+  GEMINI_CLI_VERSION=0.52.0 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.18.4 \
+  OPENCODE_AI_VERSION=1.18.5 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.80.10 \
+  PI_CLI_VERSION=0.82.1 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
