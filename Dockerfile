@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:dfa43abae25030f5456007944f725379d1f5be4bb723bd501ac39ac72ffa5474 AS go-tools-builder
+FROM node:24-trixie@sha256:66bb8d36ae1ddd72199ed235a089904874ca4079ee517936ca3adb80506a75c1 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:dfa43abae25030f5456007944f725379d1f5be4bb723bd501ac39ac72ffa5474
+FROM node:24-trixie@sha256:66bb8d36ae1ddd72199ed235a089904874ca4079ee517936ca3adb80506a75c1
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,13 +84,13 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.11.0-2+deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.7.0-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.7.2-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.2.6-1~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.3.3-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.36.0-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.36.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.3.1-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.4.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -106,7 +106,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/iptables
   IPTABLES_VERSION=1.8.11-2 \
   # renovate: datasource=repology depName=debian_13/jq
-  JQ_VERSION=1.7.1-6+deb13u2 \
+  JQ_VERSION=1.7.1-6+deb13u3 \
   # renovate: datasource=repology depName=debian_13/less
   LESS_VERSION=668-1 \
   # renovate: datasource=repology depName=debian_13/make-dfsg
@@ -259,15 +259,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.220 \
+  CLAUDE_CLI_VERSION=2.1.221 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.146.0 \
+  CODEX_CLI_VERSION=0.146.1 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.52.0 \
+  GEMINI_CLI_VERSION=0.53.1 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.18.8 \
+  OPENCODE_AI_VERSION=1.18.13 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.82.1 \
+  PI_CLI_VERSION=0.83.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
