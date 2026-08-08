@@ -1,0 +1,12 @@
+ARG BASE_IMAGE=ghcr.io/libops/cli-sandbox:codex
+FROM ${BASE_IMAGE}
+
+USER root
+COPY --chmod=0555 init-firewall.sh /usr/local/bin/init-firewall.sh
+COPY --chmod=0555 docker-entrypoint.sh /docker-entrypoint.sh
+RUN printf '%s\n' \
+  'Defaults!/usr/local/bin/init-firewall.sh env_keep += "TASK_AGENT_MODEL_BASE_URL CLI_SANDBOX_ALLOW_HOST_NETWORK"' \
+  'node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh' \
+  > /etc/sudoers.d/node-firewall && \
+  chmod 0440 /etc/sudoers.d/node-firewall
+USER node

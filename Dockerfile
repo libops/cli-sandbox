@@ -243,9 +243,11 @@ COPY --from=go-tools-builder /root/go/bin/buf /usr/local/bin/
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-COPY --chown=node init-firewall.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
+COPY --chown=root:root --chmod=0555 init-firewall.sh /usr/local/bin/init-firewall.sh
+RUN printf '%s\n' \
+  'Defaults!/usr/local/bin/init-firewall.sh env_keep += "TASK_AGENT_MODEL_BASE_URL CLI_SANDBOX_ALLOW_HOST_NETWORK"' \
+  'node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh' \
+  > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
 USER node

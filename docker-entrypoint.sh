@@ -6,7 +6,7 @@ if [ "${SKIP_EGRESS_FIREWALL:-false}" != "true" ]; then
   sudo /usr/local/bin/init-firewall.sh \
     || (
           echo "Unable to set firewall" \
-          echo "Make sure you pass these flags to docker run: --cap-add=NET_ADMIN --cap-add=NET_RAW" \
+          echo "With --cap-drop=ALL, pass exactly: --cap-add=NET_ADMIN --cap-add=NET_RAW --cap-add=SETGID --cap-add=SETUID" \
           && exit 1
         )
 fi
