@@ -244,11 +244,7 @@ COPY --from=go-tools-builder /root/go/bin/buf /usr/local/bin/
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY --chown=root:root --chmod=0555 init-firewall.sh /usr/local/bin/init-firewall.sh
-RUN printf '%s\n' \
-  'Defaults!/usr/local/bin/init-firewall.sh env_keep += "TASK_AGENT_MODEL_BASE_URL CLI_SANDBOX_ALLOW_HOST_NETWORK"' \
-  'node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh' \
-  > /etc/sudoers.d/node-firewall && \
-  chmod 0440 /etc/sudoers.d/node-firewall
+COPY --chown=root:root --chmod=0440 node-firewall.sudoers /etc/sudoers.d/node-firewall
 
 USER node
 
@@ -298,6 +294,7 @@ ENV \
   COMPOSER_HOME="/home/node/.composer" \
   COMPOSER_MEMORY_LIMIT=-1 \
   PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/home/node/go/bin:/usr/local/share/npm-global/bin:/home/node/.composer/vendor/bin \
+  CLI_SANDBOX_EGRESS_PROFILE="managed" \
   SKIP_EGRESS_FIREWALL="false"
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh

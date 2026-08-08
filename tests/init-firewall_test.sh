@@ -70,6 +70,7 @@ test_dns_allowance_is_exact() {
     }
 
     TASK_AGENT_MODEL_BASE_URL="https://models.internal.example:8443/v1"
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE="interactive"
     configure_task_agent_model_egress
 
     assert_equal "8443" "$TASK_AGENT_MODEL_EGRESS_PORT" "DNS model port"
@@ -85,8 +86,38 @@ test_dns_rejects_unsafe_answers() {
     ipset() { :; }
 
     TASK_AGENT_MODEL_BASE_URL="https://models.internal.example/v1"
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE="interactive"
     if configure_task_agent_model_egress >/dev/null 2>&1; then
         fail "DNS result containing the metadata IP was accepted"
+    fi
+}
+
+test_egress_profile_defaults_to_managed() {
+    unset CLI_SANDBOX_EGRESS_PROFILE || true
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE=""
+    configure_egress_profile
+    assert_equal "managed" "$CLI_SANDBOX_EGRESS_PROFILE_VALUE" "default egress profile"
+}
+
+test_invalid_egress_profile_is_rejected() {
+    CLI_SANDBOX_EGRESS_PROFILE="production"
+    if configure_egress_profile >/dev/null 2>&1; then
+        fail "invalid egress profile was accepted"
+    fi
+    unset CLI_SANDBOX_EGRESS_PROFILE
+}
+
+test_managed_profile_requires_literal_gateway() {
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE="managed"
+    TASK_AGENT_MODEL_BASE_URL="https://models.internal.example/v1"
+    if configure_task_agent_model_egress >/dev/null 2>&1; then
+        fail "managed profile accepted a DNS model gateway"
+    fi
+
+    TASK_AGENT_MODEL_BASE_URL=""
+    configure_task_agent_model_egress
+    if validate_managed_model_gateway >/dev/null 2>&1; then
+        fail "managed profile started without a model gateway"
     fi
 }
 
@@ -161,6 +192,7 @@ test_host_network_explicit_opt_in() {
     }
 
     CLI_SANDBOX_ALLOW_HOST_NETWORK="true"
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE="interactive"
     configure_host_network_access
     install_host_network_access_rules
 
@@ -169,6 +201,14 @@ test_host_network_explicit_opt_in() {
     assert_equal "2" "${#calls[@]}" "enabled host-network rule count"
     assert_equal "-A INPUT -s 172.19.0.0/24 -j ACCEPT" "${calls[0]}" "host-network input rule"
     assert_equal "-A OUTPUT -d 172.19.0.0/24 -j ACCEPT" "${calls[1]}" "host-network output rule"
+}
+
+test_managed_profile_rejects_host_network() {
+    CLI_SANDBOX_ALLOW_HOST_NETWORK="true"
+    CLI_SANDBOX_EGRESS_PROFILE_VALUE="managed"
+    if configure_host_network_access >/dev/null 2>&1; then
+        fail "managed profile accepted host-network access"
+    fi
 }
 
 test_host_network_rejects_ambiguous_values() {
@@ -191,10 +231,14 @@ test_ssh_is_not_globally_allowed() {
 test_psc_ipv4_allowance
 test_dns_allowance_is_exact
 test_dns_rejects_unsafe_answers
+test_egress_profile_defaults_to_managed
+test_invalid_egress_profile_is_rejected
+test_managed_profile_requires_literal_gateway
 test_invalid_urls
 test_empty_configuration_is_disabled
 test_host_network_is_default_denied
 test_host_network_explicit_opt_in
+test_managed_profile_rejects_host_network
 test_host_network_rejects_ambiguous_values
 test_ssh_is_not_globally_allowed
 
