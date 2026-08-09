@@ -244,6 +244,7 @@ COPY --from=go-tools-builder /root/go/bin/buf /usr/local/bin/
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY --chown=root:root --chmod=0555 init-firewall.sh /usr/local/bin/init-firewall.sh
+COPY --chown=root:root --chmod=0444 default-route-gateway.awk model-gateway-a-records.awk /usr/local/bin/
 COPY --chown=root:root --chmod=0440 node-firewall.sudoers /etc/sudoers.d/node-firewall
 
 USER node
