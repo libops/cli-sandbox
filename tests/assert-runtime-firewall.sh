@@ -7,7 +7,7 @@ fail() {
     exit 1
 }
 
-host_ip="$(ip -4 route show default | awk '$1 == "default" && $2 == "via" { print $3; exit }')"
+host_ip="$(ip -4 route show default | awk -f /usr/local/bin/default-route-gateway.awk)"
 host_network="${host_ip%.*}.0/24"
 
 if /usr/sbin/iptables -C INPUT -s "$host_network" -j ACCEPT 2>/dev/null; then

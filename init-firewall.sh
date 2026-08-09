@@ -11,7 +11,7 @@ CLI_SANDBOX_HOST_NETWORK=""
 CLI_SANDBOX_EGRESS_PROFILE_VALUE=""
 FIREWALL_PROGRAM_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 DEFAULT_ROUTE_GATEWAY_PROGRAM="${FIREWALL_PROGRAM_DIR}/default-route-gateway.awk"
-MODEL_GATEWAY_A_RECORDS_PROGRAM="${FIREWALL_PROGRAM_DIR}/model-gateway-a-records.awk"
+DNS_A_RECORDS_PROGRAM="${FIREWALL_PROGRAM_DIR}/dns-a-records.awk"
 
 firewall_error() {
     echo "ERROR: $*" >&2
@@ -155,7 +155,7 @@ parse_task_agent_model_base_url() {
 resolve_model_gateway_ipv4() {
     local hostname="$1"
 
-    dig +noall +answer A "$hostname" | awk -f "$MODEL_GATEWAY_A_RECORDS_PROGRAM" | sort -u
+    dig +noall +answer A "$hostname" | awk -f "$DNS_A_RECORDS_PROGRAM" | sort -u
 }
 
 configure_task_agent_model_egress() {
@@ -388,7 +388,7 @@ for domain in \
     "googleapis.l.google.com" \
     "vuln.go.dev"; do
     echo "Resolving $domain..."
-    ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
+    ips=$(dig +noall +answer A "$domain" | awk -f "$DNS_A_RECORDS_PROGRAM")
     if [ -z "$ips" ]; then
         echo "ERROR: Failed to resolve $domain"
         exit 1
