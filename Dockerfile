@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.26.5
+ARG GO_VERSION=1.26.6
 ARG GO_AMD64=linux-amd64.tar.gz
 ARG GO_AMD64_SHA256="5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
 ARG GO_ARM64=linux-arm64.tar.gz
@@ -9,7 +9,7 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
   GOPLS_VERSION=v0.23.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.6.0 \
+  GOVULNCHECK_VERSION=v1.7.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
   GOSEC_VERSION=v2.28.0 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
@@ -134,7 +134,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/tree
   TREE_VERSION=2.2.1-1 \
   # renovate: datasource=repology depName=debian_13/unzip
-  UNZIP_VERSION=6.0-29 \
+  UNZIP_VERSION=6.0-29+deb13u1 \
   # renovate: datasource=repology depName=debian_13/vim
   VIM_VERSION=2:9.1.1230-2 \
   GO_VERSION \
@@ -259,15 +259,15 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.221 \
+  CLAUDE_CLI_VERSION=2.1.228 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.146.1 \
+  CODEX_CLI_VERSION=0.147.0 \
   # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.53.1 \
+  GEMINI_CLI_VERSION=0.54.4 \
   # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.18.13 \
+  OPENCODE_AI_VERSION=1.18.16 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.83.0 \
+  PI_CLI_VERSION=0.84.1 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
