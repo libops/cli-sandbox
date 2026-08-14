@@ -262,10 +262,6 @@ ARG \
   CLAUDE_CLI_VERSION=2.1.228 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.147.0 \
-  # renovate: datasource=npm depName=@google/gemini-cli
-  GEMINI_CLI_VERSION=0.54.4 \
-  # renovate: datasource=npm depName=opencode-ai
-  OPENCODE_AI_VERSION=1.18.16 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.84.1 \
   CLI=""
@@ -274,16 +270,12 @@ RUN if [ -n "$CLI" ]; then \
     case "$CLI" in \
       claude) npm install -g "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" ;; \
       codex) npm install -g "@openai/codex@$CODEX_CLI_VERSION" ;; \
-      gemini) npm install -g "@google/gemini-cli@$GEMINI_CLI_VERSION" ;; \
-      opencode) npm install -g "opencode-ai@$OPENCODE_AI_VERSION" ;; \
       pi) npm install -g "@earendil-works/pi-coding-agent@$PI_CLI_VERSION" ;; \
     esac; \
   else \
     npm install -g \
       "@anthropic-ai/claude-code@$CLAUDE_CLI_VERSION" \
       "@openai/codex@$CODEX_CLI_VERSION" \
-      "@google/gemini-cli@$GEMINI_CLI_VERSION" \
-      "opencode-ai@$OPENCODE_AI_VERSION" \
       "@earendil-works/pi-coding-agent@$PI_CLI_VERSION"; \
   fi
 
