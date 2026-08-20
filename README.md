@@ -1,6 +1,6 @@
 # cli-sandbox
 
-Run `claude`, `codex`, `gemini`, `opencode`, or `pi` in a docker container.
+Run `claude`, `codex`, or `pi` in a docker container.
 
 The image defaults to the managed Task Agent egress profile. That profile allows
 one operator-configured model gateway IPv4/TCP tuple, blocks runtime DNS, and
@@ -184,8 +184,8 @@ ccli() {
   fi
 
   local cli=$1
-  if [ "$cli" != "opencode" ] && [ "$cli" != "codex" ] && [ "$cli" != "claude" ] && [ "$cli" != "gemini" ]; then
-    echo "Need to pass opencode, codex, gemini, or claude"
+  if [ "$cli" != "codex" ] && [ "$cli" != "claude" ] && [ "$cli" != "pi" ]; then
+    echo "Need to pass claude, codex, or pi"
     return
   fi
 
@@ -215,10 +215,6 @@ ccli() {
     "$cli"
 }
 
-gemini() {
-  ccli gemini
-}
-
 claude() {
   ccli claude
 }
@@ -227,8 +223,8 @@ codex() {
   ccli codex
 }
 
-opencode() {
-  ccli opencode
+pi() {
+  ccli pi
 }
 ```
 
