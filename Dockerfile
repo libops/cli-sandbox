@@ -1,9 +1,9 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.26.6
+ARG GO_VERSION=1.27.0
 ARG GO_AMD64=linux-amd64.tar.gz
-ARG GO_AMD64_SHA256="708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
+ARG GO_AMD64_SHA256="675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
 ARG GO_ARM64=linux-arm64.tar.gz
-ARG GO_ARM64_SHA256="d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
+ARG GO_ARM64_SHA256="51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda"
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
@@ -90,7 +90,7 @@ ARG \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.36.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.4.0-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.5.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.228 \
+  CLAUDE_CLI_VERSION=2.1.239 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.147.0 \
+  CODEX_CLI_VERSION=0.149.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.84.1 \
+  PI_CLI_VERSION=0.84.2 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
