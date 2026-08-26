@@ -1,7 +1,7 @@
 # renovate: datasource=golang-version depName=go versioning=semver
 ARG GO_VERSION=1.27.0
 ARG GO_AMD64=linux-amd64.tar.gz
-ARG GO_AMD64_SHA256="75c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
+ARG GO_AMD64_SHA256="675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
 ARG GO_ARM64=linux-arm64.tar.gz
 ARG GO_ARM64_SHA256="51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda"
 
