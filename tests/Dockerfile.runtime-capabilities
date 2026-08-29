@@ -4,6 +4,7 @@ FROM ${BASE_IMAGE}
 USER root
 COPY --chmod=0555 init-firewall.sh /usr/local/bin/init-firewall.sh
 COPY --chmod=0555 docker-entrypoint.sh /docker-entrypoint.sh
+COPY --chmod=0444 default-route-gateway.awk dns-a-records.awk /usr/local/bin/
 COPY --chmod=0440 node-firewall.sudoers /etc/sudoers.d/node-firewall
 COPY --chmod=0555 tests/runtime-task-ready.sh /usr/local/lib/cli-sandbox-tests/runtime-task-ready.sh
 COPY --chmod=0555 tests/assert-runtime-task.sh /usr/local/lib/cli-sandbox-tests/assert-runtime-task.sh

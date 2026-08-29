@@ -254,3 +254,17 @@ docker build \
   -t cli-sandbox:runtime-capabilities-test .
 bash tests/runtime-capabilities_test.sh cli-sandbox:runtime-capabilities-test
 ```
+
+## Published Task Agent artifact
+
+The `codex` tag is the reviewed Task Agent release channel. A main-branch push
+builds the exact main commit through the SHA-pinned LibOps reusable publisher,
+scans both native platform images, assembles one multi-platform manifest, and
+keylessly signs that digest with GitHub Actions OIDC. The same workflow attaches
+and verifies SPDX SBOMs for `linux/amd64` and `linux/arm64` plus SLSA v1
+provenance that binds the caller repository, workflow, ref, and source commit.
+
+Runtime consumers must use the reviewed `ghcr.io/libops/cli-sandbox@sha256:...`
+identity recorded in the API Task Agent catalog. They must not pull `codex` or
+another movable tag directly. `claude` and `pi` remain interactive convenience
+tags and are not Task Agent release artifacts.

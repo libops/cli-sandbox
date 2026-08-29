@@ -1,6 +1,9 @@
 name: build
 on:
+  pull_request:
   push:
+    branches:
+      - main
 jobs:
   lint:
     permissions:
@@ -28,11 +31,20 @@ jobs:
         run: bash tests/runtime-capabilities_test.sh cli-sandbox:runtime-capabilities-test
   push:
     needs: [lint]
-    uses: libops/.github/.github/workflows/build-push.yaml@5f44a8c8d157bb7e5cf6d9e1c98847a604e87455 # main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: libops/.github/.github/workflows/build-push.yaml@7973cf4ab1d600c053b8e3fe9f0e421733879d19 # main
     permissions:
       contents: read
+      id-token: write
       packages: write
-    secrets: inherit
+    with:
+      image: cli-sandbox
+      ref: ${{ github.sha }}
+      tag: codex
+      expected-main-sha: ${{ github.sha }}
+      scan: true
+      sign: true
+      certificate-identity: https://github.com/libops/.github/.github/workflows/build-push.yaml@7973cf4ab1d600c053b8e3fe9f0e421733879d19
   push-cli:
     needs: [push]
     if: github.ref == 'refs/heads/main'
@@ -42,7 +54,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        cli: [claude, codex, gemini, opencode, pi]
+        cli: [claude, pi]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
