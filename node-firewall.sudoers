@@ -1,0 +1,3 @@
+Defaults!/usr/local/bin/init-firewall.sh env_keep += "TASK_AGENT_MODEL_BASE_URL CLI_SANDBOX_ALLOW_HOST_NETWORK CLI_SANDBOX_EGRESS_PROFILE"
+node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh ""
+node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh --check-runtime-capabilities
