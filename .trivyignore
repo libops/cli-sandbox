@@ -1,0 +1,6 @@
+# gopls v0.23.0 embeds these modules, but govulncheck's binary analysis finds
+# no reachable vulnerable symbols. Remove these short-lived exceptions when the
+# next stable gopls release carries the patched module versions.
+CVE-2026-56852 exp:2026-09-05
+CVE-2026-56864 exp:2026-09-05
+CVE-2026-56865 exp:2026-09-05
