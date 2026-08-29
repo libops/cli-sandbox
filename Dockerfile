@@ -16,7 +16,7 @@ ARG \
 
 ARG \
   # renovate: datasource=go depName=github.com/moby/go-archive
-  GO_ARCHIVE_VERSION=v0.3.0 \
+  GO_ARCHIVE_VERSION=v0.3.3 \
   # renovate: datasource=go depName=golang.org/x/mod
   GO_MOD_VERSION=v0.40.0 \
   # renovate: datasource=go depName=golang.org/x/net
@@ -24,7 +24,7 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/text
   GO_TEXT_VERSION=v0.41.0 \
   # renovate: datasource=go depName=google.golang.org/grpc
-  GRPC_VERSION=v1.83.1
+  GRPC_VERSION=v1.83.2
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
@@ -335,9 +335,9 @@ ARG \
   # renovate: datasource=npm depName=brace-expansion
   NPM_BRACE_EXPANSION_VERSION=5.0.9 \
   # renovate: datasource=npm depName=ip-address
-  NPM_IP_ADDRESS_VERSION=10.3.1 \
+  NPM_IP_ADDRESS_VERSION=10.5.0 \
   # renovate: datasource=npm depName=tar
-  NPM_TAR_VERSION=7.5.21 \
+  NPM_TAR_VERSION=7.5.22 \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.251 \
   # renovate: datasource=npm depName=@openai/codex
