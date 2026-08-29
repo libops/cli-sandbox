@@ -44,7 +44,7 @@ jobs:
   push:
     needs: [lint]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    uses: libops/.github/.github/workflows/build-push.yaml@e1b8f81b967cead6942fc0e6695cddc754933f74 # main
+    uses: libops/.github/.github/workflows/build-push.yaml@f342f5dca90ff43964351a1fd3b251ee5ed0e54a # main
     permissions:
       contents: read
       id-token: write
@@ -56,7 +56,7 @@ jobs:
       expected-main-sha: ${{ github.sha }}
       scan: true
       sign: true
-      certificate-identity: https://github.com/libops/.github/.github/workflows/build-push.yaml@7973cf4ab1d600c053b8e3fe9f0e421733879d19
+      certificate-identity: https://github.com/libops/.github/.github/workflows/build-push.yaml@f342f5dca90ff43964351a1fd3b251ee5ed0e54a
   push-cli:
     needs: [push]
     if: github.ref == 'refs/heads/main'
