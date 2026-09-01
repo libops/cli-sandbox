@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.27.0
+ARG GO_VERSION=1.27.1
 ARG GO_AMD64=linux-amd64.tar.gz
 ARG GO_AMD64_SHA256="675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
 ARG GO_ARM64=linux-arm64.tar.gz
@@ -335,7 +335,7 @@ ARG \
   # renovate: datasource=npm depName=brace-expansion
   NPM_BRACE_EXPANSION_VERSION=5.0.9 \
   # renovate: datasource=npm depName=ip-address
-  NPM_IP_ADDRESS_VERSION=10.5.0 \
+  NPM_IP_ADDRESS_VERSION=10.7.0 \
   # renovate: datasource=npm depName=tar
   NPM_TAR_VERSION=7.5.22 \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
