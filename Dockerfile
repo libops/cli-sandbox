@@ -1,9 +1,9 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.27.0
+ARG GO_VERSION=1.27.1
 ARG GO_AMD64=linux-amd64.tar.gz
-ARG GO_AMD64_SHA256="675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
+ARG GO_AMD64_SHA256="63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
 ARG GO_ARM64=linux-arm64.tar.gz
-ARG GO_ARM64_SHA256="51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda"
+ARG GO_ARM64_SHA256="3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d92bec"
 
 ARG \
   # renovate: datasource=go depName=github.com/docker/buildx
@@ -335,7 +335,7 @@ ARG \
   # renovate: datasource=npm depName=brace-expansion
   NPM_BRACE_EXPANSION_VERSION=5.0.9 \
   # renovate: datasource=npm depName=ip-address
-  NPM_IP_ADDRESS_VERSION=10.5.0 \
+  NPM_IP_ADDRESS_VERSION=10.7.0 \
   # renovate: datasource=npm depName=tar
   NPM_TAR_VERSION=7.5.22 \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code

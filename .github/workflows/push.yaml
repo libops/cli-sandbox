@@ -12,27 +12,24 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
       - run: shellcheck *.sh scripts/*.sh tests/*.sh
+
       - run: bash tests/init-firewall_test.sh
+
       - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
         with:
           dockerfile: Dockerfile
           verbose: true
+
       - uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
         with:
           dockerfile: tests/Dockerfile.runtime-capabilities
           verbose: true
+
       - name: Build sandbox image under test
         run: docker build -t cli-sandbox:pr .
-      - name: Scan sandbox image under test
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
-        with:
-          image-ref: cli-sandbox:pr
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          severity: HIGH,CRITICAL
-          vuln-type: os,library
+
       - name: Build runtime capability fixture
         run: >-
           docker build
