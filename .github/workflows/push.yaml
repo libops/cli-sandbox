@@ -54,7 +54,6 @@ jobs:
       ref: ${{ github.sha }}
       tag: codex
       expected-main-sha: ${{ github.sha }}
-      scan: true
       sign: true
   push-cli:
     needs: [push]
