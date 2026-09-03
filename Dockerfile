@@ -7,11 +7,11 @@ ARG GO_ARM64_SHA256="3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d
 
 ARG \
   # renovate: datasource=go depName=github.com/docker/buildx
-  DOCKER_BUILDX_VERSION=v0.36.1 \
+  DOCKER_BUILDX_VERSION=v0.37.0 \
   # renovate: datasource=go depName=github.com/docker/compose/v5
   DOCKER_COMPOSE_VERSION=v5.5.0 \
   # renovate: datasource=go depName=github.com/hashicorp/terraform
-  TERRAFORM_VERSION=v1.16.0 \
+  TERRAFORM_VERSION=v1.16.1 \
   TERRAFORM_SOURCE_SHA256=f5df64ffa0260b9c463c9a5852c9e89c83f1314616977353eb3bbd36326af198
 
 ARG \
@@ -180,7 +180,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/openssl
   LIBSSL_VERSION=3.5.7-1~deb13u2 \
   # renovate: datasource=repology depName=debian_13/linux
-  LINUX_LIBC_DEV_VERSION=6.12.105-1 \
+  LINUX_LIBC_DEV_VERSION=6.12.107-1 \
   # renovate: datasource=repology depName=debian_13/make-dfsg
   MAKE_VERSION=4.4.1-2 \
   # renovate: datasource=repology depName=debian_13/man-db
