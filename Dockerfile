@@ -12,7 +12,7 @@ ARG \
   DOCKER_COMPOSE_VERSION=v5.5.0 \
   # renovate: datasource=go depName=github.com/hashicorp/terraform
   TERRAFORM_VERSION=v1.16.1 \
-  TERRAFORM_SOURCE_SHA256=f5df64ffa0260b9c463c9a5852c9e89c83f1314616977353eb3bbd36326af198
+  TERRAFORM_SOURCE_SHA256=d425d2d781763bf810d6c547a47822d4d0d934ff5311e9e26dc45f4f30c241bd
 
 ARG \
   # renovate: datasource=go depName=github.com/moby/go-archive
@@ -395,6 +395,7 @@ ENV \
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY .bash_aliases /home/node/
 
-RUN if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi
+RUN if [ -z "$CLI" ] || [ "$CLI" = "claude" ]; then claude install; fi && \
+    if [ "$CLI" = "codex" ]; then wget -q -O - https://chatgpt.com/codex/install.sh | sh; fi
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
