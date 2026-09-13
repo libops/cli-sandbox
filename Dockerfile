@@ -15,11 +15,11 @@ ARG \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
-  BUF_VERSION=v1.72.0 \
+  BUF_VERSION=v1.73.0 \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:f7d34e58713740f9eef9092c0bd6ff10369d132f7238399a4b270f16d47fa608 AS go-tools-builder
+FROM node:24-trixie@sha256:9516e2220ff64c75233a3d6d8aa90f857381bc6266de5803d620b2b2dbaf9e60 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:f7d34e58713740f9eef9092c0bd6ff10369d132f7238399a4b270f16d47fa608
+FROM node:24-trixie@sha256:9516e2220ff64c75233a3d6d8aa90f857381bc6266de5803d620b2b2dbaf9e60
 
 ARG TZ
 ENV TZ="$TZ"
@@ -82,13 +82,13 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.26-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
-  BW_VERSION=0.11.0-2+deb13u1 \
+  BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
   DOCKER_CE_VERSION=5:29.8.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
   CONTAINERD_IO_VERSION=2.3.5-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.37.0-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.37.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
   DOCKER_COMPOSE_PLUGIN_VERSION=5.5.1-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
@@ -259,9 +259,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.266 \
+  CLAUDE_CLI_VERSION=2.1.267 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.153.4 \
+  CODEX_CLI_VERSION=0.154.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.85.1 \
   CLI=""
