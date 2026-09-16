@@ -82,7 +82,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bind9
   BIND9_VERSION=1:9.20.26-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
-  BW_VERSION=0.11.0-2+deb13u1 \
+  BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
   DOCKER_CE_VERSION=5:29.8.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
