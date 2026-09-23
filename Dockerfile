@@ -80,7 +80,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.26-1~deb13u1 \
+  BIND9_VERSION=1:9.20.29-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
@@ -261,7 +261,7 @@ ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.278 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.155.1 \
+  CODEX_CLI_VERSION=0.156.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.86.0 \
   CLI=""
