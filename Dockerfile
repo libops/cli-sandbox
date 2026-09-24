@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:9516e2220ff64c75233a3d6d8aa90f857381bc6266de5803d620b2b2dbaf9e60 AS go-tools-builder
+FROM node:24-trixie@sha256:be40f6a87b9b22215ddb20da0a2320a5c6d583fe3ee3b0024d9fa4f05b40c8fd AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:9516e2220ff64c75233a3d6d8aa90f857381bc6266de5803d620b2b2dbaf9e60
+FROM node:24-trixie@sha256:be40f6a87b9b22215ddb20da0a2320a5c6d583fe3ee3b0024d9fa4f05b40c8fd
 
 ARG TZ
 ENV TZ="$TZ"
@@ -80,7 +80,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.26-1~deb13u1 \
+  BIND9_VERSION=1:9.20.29-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.270 \
+  CLAUDE_CLI_VERSION=2.1.278 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.154.0 \
+  CODEX_CLI_VERSION=0.156.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.85.1 \
+  PI_CLI_VERSION=0.86.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
