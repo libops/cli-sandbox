@@ -86,7 +86,7 @@ ARG \
   # renovate: datasource=deb depName=docker-ce
   DOCKER_CE_VERSION=5:29.8.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.3.5-1~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.3.6-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.37.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.278 \
+  CLAUDE_CLI_VERSION=2.1.283 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.156.1 \
+  CODEX_CLI_VERSION=0.157.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.86.0 \
+  PI_CLI_VERSION=0.87.1 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
