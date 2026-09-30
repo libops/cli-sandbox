@@ -106,7 +106,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/iptables
   IPTABLES_VERSION=1.8.11-2 \
   # renovate: datasource=repology depName=debian_13/jq
-  JQ_VERSION=1.7.1-6+deb13u3 \
+  JQ_VERSION=1.7.1-6+deb13u4 \
   # renovate: datasource=repology depName=debian_13/less
   LESS_VERSION=668-1 \
   # renovate: datasource=repology depName=debian_13/make-dfsg
@@ -261,7 +261,7 @@ ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.283 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.157.1 \
+  CODEX_CLI_VERSION=0.159.2 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.87.1 \
   CLI=""
