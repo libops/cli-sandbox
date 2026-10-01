@@ -261,7 +261,7 @@ ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
   CLAUDE_CLI_VERSION=2.1.283 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.159.2 \
+  CODEX_CLI_VERSION=0.160.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=0.87.1 \
   CLI=""
