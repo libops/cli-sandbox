@@ -263,7 +263,7 @@ ARG \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.159.2 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=0.87.1 \
+  PI_CLI_VERSION=1.0.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
