@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.27.1
+ARG GO_VERSION=1.27.2
 ARG GO_AMD64=linux-amd64.tar.gz
 ARG GO_AMD64_SHA256="63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
 ARG GO_ARM64=linux-arm64.tar.gz
@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:be40f6a87b9b22215ddb20da0a2320a5c6d583fe3ee3b0024d9fa4f05b40c8fd AS go-tools-builder
+FROM node:24-trixie@sha256:1278a37eb510ec1606fba0e80f554bcc941ae0b44f35ae373c4822ae7717c64d AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:be40f6a87b9b22215ddb20da0a2320a5c6d583fe3ee3b0024d9fa4f05b40c8fd
+FROM node:24-trixie@sha256:1278a37eb510ec1606fba0e80f554bcc941ae0b44f35ae373c4822ae7717c64d
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,11 +84,11 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.8.2-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.9.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.3.6-1~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.4.1-2~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.37.1-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.38.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
   DOCKER_COMPOSE_PLUGIN_VERSION=5.6.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.287 \
+  CLAUDE_CLI_VERSION=2.1.292 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.160.0 \
+  CODEX_CLI_VERSION=0.160.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=1.0.0 \
+  PI_CLI_VERSION=1.0.4 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
