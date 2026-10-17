@@ -7,7 +7,7 @@ ARG GO_ARM64_SHA256="94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
-  GOPLS_VERSION=v0.23.0 \
+  GOPLS_VERSION=v0.24.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
   GOVULNCHECK_VERSION=v1.9.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
@@ -15,11 +15,11 @@ ARG \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
-  BUF_VERSION=v1.73.0 \
+  BUF_VERSION=v1.74.0 \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:1278a37eb510ec1606fba0e80f554bcc941ae0b44f35ae373c4822ae7717c64d AS go-tools-builder
+FROM node:24-trixie@sha256:ff054b356ab93ed540518ca23cfcd9840e5256dd04db5a8d8afc43f4ecc7c9f8 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:1278a37eb510ec1606fba0e80f554bcc941ae0b44f35ae373c4822ae7717c64d
+FROM node:24-trixie@sha256:ff054b356ab93ed540518ca23cfcd9840e5256dd04db5a8d8afc43f4ecc7c9f8
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,9 +84,9 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.9.0-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.9.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.4.1-2~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.4.2-2~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.38.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.296 \
+  CLAUDE_CLI_VERSION=2.1.299 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.162.1 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=1.1.0 \
+  PI_CLI_VERSION=1.2.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
