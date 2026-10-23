@@ -1,9 +1,9 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.27.2
+ARG GO_VERSION=1.27.3
 ARG GO_AMD64=linux-amd64.tar.gz
-ARG GO_AMD64_SHA256="ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5"
+ARG GO_AMD64_SHA256="65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
 ARG GO_ARM64=linux-arm64.tar.gz
-ARG GO_ARM64_SHA256="94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8"
+ARG GO_ARM64_SHA256="a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49"
 
 ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
@@ -11,15 +11,15 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/vuln
   GOVULNCHECK_VERSION=v1.9.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
-  GOSEC_VERSION=v2.29.0 \
+  GOSEC_VERSION=v2.30.0 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
   ACTIONLINT_VERSION=v1.7.12 \
   # renovate: datasource=go depName=github.com/bufbuild/buf
-  BUF_VERSION=v1.74.0 \
+  BUF_VERSION=v1.75.0 \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:ff054b356ab93ed540518ca23cfcd9840e5256dd04db5a8d8afc43f4ecc7c9f8 AS go-tools-builder
+FROM node:24-trixie@sha256:016f604a11c4c725f0a4c62e29ff11adab153d297bf97046c9bf2ddb9f1011d3 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:ff054b356ab93ed540518ca23cfcd9840e5256dd04db5a8d8afc43f4ecc7c9f8
+FROM node:24-trixie@sha256:016f604a11c4c725f0a4c62e29ff11adab153d297bf97046c9bf2ddb9f1011d3
 
 ARG TZ
 ENV TZ="$TZ"
@@ -80,17 +80,17 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bc
   BC_VERSION=1.07.1-4 \
   # renovate: datasource=repology depName=debian_13/bind9
-  BIND9_VERSION=1:9.20.29-1~deb13u1 \
+  BIND9_VERSION=1:9.20.30-1~deb13u1 \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.9.1-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.9.2-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.4.2-2~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.4.2-3~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.38.0-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.38.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.6.0-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.6.1-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -259,7 +259,7 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.301 \
+  CLAUDE_CLI_VERSION=2.1.304 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.163.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
