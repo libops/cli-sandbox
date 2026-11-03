@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:24-trixie@sha256:8c761eca2bf7eec965f946cf47b8090143cb41f45f2f8699af0cc0298d2d2d19 AS go-tools-builder
+FROM node:26-trixie@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617 AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:24-trixie@sha256:8c761eca2bf7eec965f946cf47b8090143cb41f45f2f8699af0cc0298d2d2d19
+FROM node:26-trixie@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617
 
 ARG TZ
 ENV TZ="$TZ"
