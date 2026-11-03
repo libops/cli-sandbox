@@ -90,7 +90,7 @@ ARG \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.38.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.6.1-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.7.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -136,7 +136,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/unzip
   UNZIP_VERSION=6.0-29+deb13u1 \
   # renovate: datasource=repology depName=debian_13/vim
-  VIM_VERSION=2:9.1.1230-2 \
+  VIM_VERSION=2:9.1.1230-2+deb13u1 \
   GO_VERSION \
   GO_AMD64 \
   GO_AMD64_SHA256 \
@@ -259,9 +259,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.312 \
+  CLAUDE_CLI_VERSION=2.1.316 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.165.0 \
+  CODEX_CLI_VERSION=0.166.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=1.4.0 \
   CLI=""
