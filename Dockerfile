@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=go versioning=semver
-ARG GO_VERSION=1.27.3
+ARG GO_VERSION=1.27.4
 ARG GO_AMD64=linux-amd64.tar.gz
 ARG GO_AMD64_SHA256="65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
 ARG GO_ARM64=linux-arm64.tar.gz
@@ -19,7 +19,7 @@ ARG \
   # renovate: datasource=go depName=github.com/sqlc-dev/sqlc
   SQLC_VERSION=v1.31.1
 
-FROM node:26-trixie@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617 AS go-tools-builder
+FROM node:26-trixie@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac AS go-tools-builder
 
 ARG \
   TARGETARCH \
@@ -61,7 +61,7 @@ RUN --mount=type=cache,id=go-tools-mod-${TARGETARCH},sharing=locked,target=/root
   go install github.com/bufbuild/buf/cmd/buf@"${BUF_VERSION}" && \
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@"${SQLC_VERSION}"
 
-FROM node:26-trixie@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617
+FROM node:26-trixie@sha256:e18c3ccdf7d71619990b0e85639f506e2028a95410999cab24cc373cbd10e0ac
 
 ARG TZ
 ENV TZ="$TZ"
@@ -84,13 +84,13 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.9.2-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.9.3-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
   CONTAINERD_IO_VERSION=2.4.2-3~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
   DOCKER_BUILDX_PLUGIN_VERSION=0.38.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.7.0-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.7.1-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -136,7 +136,7 @@ ARG \
   # renovate: datasource=repology depName=debian_13/unzip
   UNZIP_VERSION=6.0-29+deb13u1 \
   # renovate: datasource=repology depName=debian_13/vim
-  VIM_VERSION=2:9.1.1230-2+deb13u1 \
+  VIM_VERSION=2:9.1.1230-2+deb13u2 \
   GO_VERSION \
   GO_AMD64 \
   GO_AMD64_SHA256 \
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.316 \
+  CLAUDE_CLI_VERSION=2.1.319 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.166.0 \
+  CODEX_CLI_VERSION=0.167.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=1.4.0 \
+  PI_CLI_VERSION=1.5.0 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
