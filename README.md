@@ -33,15 +33,23 @@ The image ships the Docker CLI, so you can drive the host's Docker daemon from
 inside the sandbox by bind-mounting the daemon socket.
 
 The container runs as the unprivileged `node` user, and access to
-`/var/run/docker.sock` is controlled by the **group** that owns it on the host.
-That group's numeric GID varies by host and rarely matches any group inside the
-image, so grant it explicitly at launch with `--group-add`:
+`/var/run/docker.sock` is controlled by the **group** that owns it. That
+group's numeric GID varies by host and rarely matches any group inside the
+image, so grant it explicitly at launch with `--group-add`.
+
+Detect the GID the way the container will see it — by reading it from a
+throwaway container that mounts the socket. This works the same on Linux,
+Docker Desktop, and Colima (where the daemon, and the real socket, live inside
+a VM rather than on your host filesystem):
 
 ```bash
+SOCK_GID=$(docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+  alpine stat -c %g /var/run/docker.sock)
+
 docker run \
   --cap-add=NET_ADMIN --cap-add=NET_RAW \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  --group-add "$(stat -c %g /var/run/docker.sock)" \
+  --group-add "$SOCK_GID" \
   -v ./:/workspace \
   -w /workspace \
   --rm -it \
@@ -58,9 +66,10 @@ Notes:
 
 - This grants the container full control of the host Docker daemon, which is
   effectively root on the host. Only do this for trusted workloads.
-- `stat -c %g` is Linux. On Docker Desktop (macOS/Windows) the socket GID
-  differs; check it with `ls -ln /var/run/docker.sock` and pass that number, or
-  use `group_add` in a compose file.
+- Don't use the host's `stat` to find the GID: macOS `stat` uses `-f %g` (not
+  `-c %g`), and under Colima `/var/run/docker.sock` doesn't exist on the host
+  at all — it's inside the VM. The throwaway-container command above sidesteps
+  both problems by reading the GID from where the daemon actually runs.
 
 ### alias
 
