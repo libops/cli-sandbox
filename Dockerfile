@@ -84,13 +84,13 @@ ARG \
   # renovate: datasource=repology depName=debian_13/bubblewrap
   BW_VERSION=0.12.0-1~deb13u1 \
   # renovate: datasource=deb depName=docker-ce
-  DOCKER_CE_VERSION=5:29.9.3-1~debian.13~trixie \
+  DOCKER_CE_VERSION=5:29.10.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=containerd.io
-  CONTAINERD_IO_VERSION=2.4.2-3~debian.13~trixie \
+  CONTAINERD_IO_VERSION=2.4.2-4~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.38.1-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.39.0-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
-  DOCKER_COMPOSE_PLUGIN_VERSION=5.7.1-1~debian.13~trixie \
+  DOCKER_COMPOSE_PLUGIN_VERSION=5.8.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
   FZF_VERSION=0.60.3-1+b2 \
   # renovate: datasource=repology depName=debian_13/gh
@@ -259,11 +259,11 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.319 \
+  CLAUDE_CLI_VERSION=2.1.325 \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.169.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=1.5.0 \
+  PI_CLI_VERSION=1.5.2 \
   CLI=""
 
 RUN if [ -n "$CLI" ]; then \
