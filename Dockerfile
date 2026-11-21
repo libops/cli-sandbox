@@ -9,7 +9,7 @@ ARG \
   # renovate: datasource=go depName=golang.org/x/tools/gopls
   GOPLS_VERSION=v0.24.0 \
   # renovate: datasource=go depName=golang.org/x/vuln
-  GOVULNCHECK_VERSION=v1.9.0 \
+  GOVULNCHECK_VERSION=v1.10.0 \
   # renovate: datasource=go depName=github.com/securego/gosec/v2
   GOSEC_VERSION=v2.30.0 \
   # renovate: datasource=go depName=github.com/rhysd/actionlint
@@ -88,7 +88,7 @@ ARG \
   # renovate: datasource=deb depName=containerd.io
   CONTAINERD_IO_VERSION=2.4.2-4~debian.13~trixie \
   # renovate: datasource=deb depName=docker-buildx-plugin
-  DOCKER_BUILDX_PLUGIN_VERSION=0.39.0-1~debian.13~trixie \
+  DOCKER_BUILDX_PLUGIN_VERSION=0.39.1-1~debian.13~trixie \
   # renovate: datasource=deb depName=docker-compose-plugin
   DOCKER_COMPOSE_PLUGIN_VERSION=5.8.0-1~debian.13~trixie \
   # renovate: datasource=repology depName=debian_13/fzf
@@ -259,9 +259,9 @@ ENV \
 
 ARG \
   # renovate: datasource=npm depName=@anthropic-ai/claude-code
-  CLAUDE_CLI_VERSION=2.1.325 \
+  CLAUDE_CLI_VERSION=2.1.327 \
   # renovate: datasource=npm depName=@openai/codex
-  CODEX_CLI_VERSION=0.169.0 \
+  CODEX_CLI_VERSION=0.170.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
   PI_CLI_VERSION=1.5.2 \
   CLI=""
