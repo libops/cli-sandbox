@@ -8,12 +8,29 @@
       customType: 'regex',
       managerFilePatterns: ['/^Dockerfile$/'],
       matchStrings: [
+        '# renovate: antigravity=(?<depName>linux_(?:amd64|arm64))\\nARG ANTIGRAVITY_[A-Z0-9]+_URL=https://storage\\.googleapis\\.com/antigravity-public/antigravity-cli/(?<currentValue>[^/]+)/[^\\s]+\\nARG ANTIGRAVITY_[A-Z0-9]+_SHA512=(?<currentDigest>[a-f0-9]{128})',
+      ],
+      datasourceTemplate: 'custom.antigravity',
+      versioningTemplate: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$',
+    },
+    {
+      customType: 'regex',
+      managerFilePatterns: ['/^Dockerfile$/'],
+      matchStrings: [
         '#\\s*renovate:\\s*datasource=deb\\s+depName=(?<depName>[^\\s]+)[^\\n]*\\n\\s+[A-Z0-9_]+_VERSION=(?<currentValue>[^\\s\\\\]+)',
       ],
       datasourceTemplate: 'deb',
       registryUrlTemplate: 'https://download.docker.com/linux/debian?suite=trixie&components=stable&binaryArch=amd64',
     },
   ],
+  customDatasources: {
+    antigravity: {
+      defaultRegistryUrlTemplate: 'https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/{{packageName}}.json',
+      transformTemplates: [
+        '{"releases": [{"version": $split(url, "/")[5], "digest": sha512}]}',
+      ],
+    },
+  },
   packageRules: [
     {
       matchDatasources: ['golang-version'],

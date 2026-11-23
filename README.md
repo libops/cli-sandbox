@@ -1,6 +1,6 @@
 # cli-sandbox
 
-Run `claude`, `codex`, or `pi` in a docker container.
+Run `claude`, `codex`, `pi`, or `agy` (Antigravity) in a docker container.
 
 `iptables` is used inside the container to block all outbound traffic except GitHub, Anthropic, and Google Cloud internal IPs.
 
@@ -26,6 +26,18 @@ docker run \
   "$CODE_CLI"
 # chit chat
 ```
+
+### Antigravity
+
+Run `agy` using the same container command above, or build just Antigravity with
+`docker build --build-arg CLI=agy -t cli-sandbox:agy .`.
+
+The image installs the native Linux binary directly from a pinned archive for
+amd64 or arm64 and verifies its SHA-512 checksum before extraction. Renovate
+reads the upstream platform manifests and updates each archive's release/build
+identifier and checksum together. No upstream installer or shell setup is run.
+The binary is installed in `/usr/local/bin` as root; image rebuilds own updates.
+`antigravity.sh` is only an installer reference and is not used by the build.
 
 ### Using Docker inside the sandbox
 
