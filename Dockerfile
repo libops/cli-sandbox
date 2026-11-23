@@ -248,6 +248,28 @@ RUN chmod +x /usr/local/bin/init-firewall.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 
+ARG CLI=""
+
+# renovate: antigravity=linux_amd64
+ARG ANTIGRAVITY_AMD64_URL=https://storage.googleapis.com/antigravity-public/antigravity-cli/1.5.15-5514532022517760/linux-x64/cli_linux_x64.tar.gz
+ARG ANTIGRAVITY_AMD64_SHA512=af3f0be58b8475940d79f9abea19e762ecc3d265ea9f56cff8dd805e27ba299b44a305a79504a7ffe6ebdfa29a294c56edc4caed1875990bfaf2fef1508ec8b0
+# renovate: antigravity=linux_arm64
+ARG ANTIGRAVITY_ARM64_URL=https://storage.googleapis.com/antigravity-public/antigravity-cli/1.5.15-5514532022517760/linux-arm/cli_linux_arm64.tar.gz
+ARG ANTIGRAVITY_ARM64_SHA512=d64ad759781b50dfacfa7d9826c0ad469959d01bdf5a170acd4c83472eba31c677baf0052ac8ab48eef40f0d3f0e26057e752aabd24331c79f4c881d4b872125
+
+RUN if [ -z "$CLI" ] || [ "$CLI" = "agy" ]; then \
+    case "$TARGETARCH" in \
+      amd64) url="$ANTIGRAVITY_AMD64_URL"; sha512="$ANTIGRAVITY_AMD64_SHA512" ;; \
+      arm64) url="$ANTIGRAVITY_ARM64_URL"; sha512="$ANTIGRAVITY_ARM64_SHA512" ;; \
+      *) echo "Unsupported Antigravity architecture: $TARGETARCH" >&2; exit 1 ;; \
+    esac && \
+    wget -q -O /tmp/antigravity.tar.gz "$url" && \
+    printf '%s  %s\n' "$sha512" /tmp/antigravity.tar.gz | sha512sum -c - && \
+    tar -xzf /tmp/antigravity.tar.gz -C /tmp antigravity && \
+    install -m 0755 /tmp/antigravity /usr/local/bin/agy && \
+    rm /tmp/antigravity.tar.gz /tmp/antigravity; \
+  fi
+
 USER 1000
 
 ENV \
@@ -263,8 +285,7 @@ ARG \
   # renovate: datasource=npm depName=@openai/codex
   CODEX_CLI_VERSION=0.171.0 \
   # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-  PI_CLI_VERSION=1.5.2 \
-  CLI=""
+  PI_CLI_VERSION=1.5.2
 
 RUN if [ -n "$CLI" ]; then \
     case "$CLI" in \
